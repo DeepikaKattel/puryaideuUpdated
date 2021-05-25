@@ -61,6 +61,15 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item has-treeview menu-open">
+                    <a href="{{route('riders.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-user-tie"></i>
+                        <p>
+                            Riders
+                            <span class="badge badge-danger right"></span>
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>

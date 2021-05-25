@@ -39,6 +39,7 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/vehicleType/destroy/{id}', 'VehicleTypeController@destroy')->name('v.destroy');
     Route::get('statusVT{id}', 'VehicleTypeController@status')->name('statusVT');
 
+
     Route::resource('/vehicle', 'VehicleController');
     Route::get('/vehicle/destroy/{id}', 'VehicleController@destroy')->name('ve.destroy');
     Route::get('statusV{id}', 'VehicleController@status')->name('statusV');
@@ -51,6 +52,11 @@ Route::middleware(['admin'])->group(function () {
 
     Route::resource('/plan', 'PlanController');
     Route::get('/plan/destroy/{id}', 'PlanController@destroy')->name('pl.destroy');
+
+    Route::get('/riders','RiderController@index')->name('riders.index');
+    Route::get('statusR{id}', 'RiderController@status')->name('statusR');
+    Route::get('license/{id}', 'RiderController@show')->name('license.show');
+    Route::get('/rider/destroy/{id}', 'RiderController@destroy')->name('ri.destroy');
 
 
 });

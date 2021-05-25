@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Notifications\NewUser;
 use App\Rider;
 use App\User;
+use App\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -22,7 +23,9 @@ class RiderController extends Controller
      */
     public function index()
     {
-        //
+        $riders = Rider::with('user','vehicle')->get();
+
+        return view('admin.riders.index',compact('riders'));
     }
 
     /**
@@ -52,9 +55,14 @@ class RiderController extends Controller
      * @param  \App\Rider  $rider
      * @return \Illuminate\Http\Response
      */
-    public function show(Rider $rider)
+    public function show($id)
     {
-        //
+        $rider = Rider::find($id);
+        $file = public_path()."/storage/images/documents/".$rider->license;
+        $header = [
+            'Content-Type' => 'application/pdf',
+        ];
+        return response()->file($file, $header);
     }
 
     /**
@@ -77,6 +85,9 @@ class RiderController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, [
+            'license' => ['required|mimetypes:application/pdf|max:10000'],
+        ]);
         $rider = Rider::find($id);
         if($request->hasFile('license')){
             $filenameWithExt = $request->file('license')->getClientOriginalName();
@@ -87,7 +98,11 @@ class RiderController extends Controller
 
             Storage::delete('public/images/documents/'.$rider->license);
         }
-        $rider->license = $fileNameToStore1;
+        if($request->hasFile('license'))
+        {
+            $rider->license = $fileNameToStore1;
+        }
+
         $rider->trained = request('trained');
         $rider->save();
 
@@ -100,9 +115,10 @@ class RiderController extends Controller
      * @param  \App\Rider  $rider
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Rider $rider)
+    public function destroy($id)
     {
-        //
+        $rider = Rider::find($id)->delete();
+        return redirect()->back()->with('status', 'Deleted Successfully');
     }
 
 
@@ -119,7 +135,7 @@ class RiderController extends Controller
             'contact2' => ['required'],
             'city' => ['required'],
             'area' => ['required'],
-            'license' => ['required'],
+            'license' => ['required|mimetypes:application/pdf|max:10000'],
             'license_number' => ['required'],
             'experience' => ['required']
         ]);
@@ -166,5 +182,19 @@ class RiderController extends Controller
 //
 //        return $user;
         return redirect()->intended('home');
+    }
+
+    public function status(Request $request, $id){
+        $data=Rider::find($id);
+
+        if($data->status==0){
+            $data->status=1;
+        }else{
+            $data->status=0;
+        }
+
+        $data->save();
+        return redirect()->back()->with('message', 'Status of'.' '.$data->id.' '.'has been changed successfully');
+
     }
 }
