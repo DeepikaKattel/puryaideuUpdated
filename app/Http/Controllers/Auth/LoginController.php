@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\Rider;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -100,6 +101,10 @@ class LoginController extends Controller
                 $usersUnapproved = User::whereNull('approved_at')->get();
                 $usersCount = count($usersUnapproved);
                 Session::put('total_users_unapproved', $usersCount);
+
+                $riders = Rider::all()->count();
+                Session::put('riders', $riders);
+
 
                 return redirect()->intended('admin/dashboard');
             }

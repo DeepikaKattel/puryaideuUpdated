@@ -89,9 +89,18 @@ class UserController extends Controller
         $user->save();
 
         if ($user->role == '2'){
+            if($request->hasFile('license')){
+                $filenameWithExt = $request->file('license')->getClientOriginalName();
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension = $request->file('license')->getClientOriginalExtension();
+                $fileNameToStore1 = $filename.'_'.time().".".$extension;
+                $path = $request->file('license')->storeAs('public/images/documents', $fileNameToStore1);
+            } else {
+                $fileNameToStore1 = 'no-image.jpg';
+            }
             $rider = new Rider();
             $rider->user_id = $user->id;
-            $rider->license = request('license');
+            $rider->license = $fileNameToStore1;
             $rider->license_number = request('license_number');
             $rider->experience = request('experience');
             $rider->save();
