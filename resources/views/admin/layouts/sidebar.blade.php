@@ -210,7 +210,7 @@
                 </li>
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-calendar"></i>
+                        <i class="nav-icon fas fa-calendar-check"></i>
                         <p>
                             Booking
                             <i class="fas fa-angle-left right"></i>
@@ -218,13 +218,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="{{ route('booking.index') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>List Bookings</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/map" class="nav-link">
+                            <a href="{{ route('booking.create') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Add Booking</p>
                             </a>

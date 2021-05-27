@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Rider;
+use App\Vehicle;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -104,6 +105,9 @@ class LoginController extends Controller
 
                 $riders = Rider::all()->count();
                 Session::put('riders', $riders);
+
+                $vehicles = Vehicle::all()->count();
+                Session::put('vehicles', $vehicles);
 
 
                 return redirect()->intended('admin/dashboard');

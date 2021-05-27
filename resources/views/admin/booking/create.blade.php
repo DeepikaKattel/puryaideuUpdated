@@ -39,19 +39,25 @@
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label for="from" class="control-label"><i class="far fa-dot-circle"></i> Origin</label>
-                                            <input type="text" id="from" class="form-control" required placeholder="Origin">
+                                            <input type="text" id="from" name="origin" class="form-control" required placeholder="Origin">
                                         </div>
                                         <div class="form-group">
                                             <label for="to" class="control-label"><i class="fas fa-map-marker-alt"></i> Destination</label>
-                                            <input type="text" id="to" class="form-control" required placeholder="Destination">
+                                            <input type="text" id="to" name="destination" class="form-control" required placeholder="Destination">
                                         </div>
-                                        <button class="btn btn-primary" onclick="calcRoute();"><i class="fas fa-directions"></i> Show Distance</button>
+                                        <div class="form-group">
+                                            <button class="btn btn-primary" onclick="calcRoute();"><i class="fas fa-directions"></i> Show Distance</button>
+                                        </div>
+
+                                        <div id="googleMap">
+                                        </div>
+
+                                        <div id="output">
+                                        </div>
 
                                         <div class="form-group">
-                                            <input type="number" class="form-control" name="passenger_number" placeholder="Number of Passengers">
+                                            <input type="number" class="form-control" id="passenger_number" name="passenger_number" placeholder="Number of Passengers">
                                         </div>
-
-
                                         <div class="form-group">
                                             <select class="form-control" name="vehicle_type" required>
                                                 <option value="" selected="" disabled>Vehicle Type</option>
@@ -71,33 +77,11 @@
                                             </select>
                                             <span class="select-arrow"></span>
                                         </div>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#passengerModal">
-                                            Add Passenger Details
-                                        </button>
 
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="passengerModal" tabindex="-1" role="dialog" aria-labelledby="passengerModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="riderModalLabel">Add Details</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
+                                        <div id="form-placeholder"></div>
+                                        <button id="btn-add" type="button" class="btn btn-success">Add Passenger Details</button>
+                                        <hr/>
 
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div id="googleMap">
-                                        </div>
-
-                                        <div id="output">
-                                        </div>
                                     </div>
 
                                     <!-- /.card-body -->
@@ -118,5 +102,6 @@
     </div>
     <!-- ./wrapper -->
 @endsection
+
 
 

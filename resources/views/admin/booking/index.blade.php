@@ -7,12 +7,12 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Vehicles</h1>
+                            <h1>Bookings</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Vehicles List</li>
+                                <li class="breadcrumb-item active">Bookings List</li>
                             </ol>
                         </div>
                     </div>
@@ -26,7 +26,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">Table showing vehicles</h3>
+                                    <h3 class="card-title">Table showing bookings</h3>
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
@@ -43,34 +43,30 @@
                                         <thead>
                                         <tr>
                                             <th>ID</th>
+                                            <th>Booking By:</th>
+                                            <th>Origin</th>
+                                            <th>Destination</th>
+                                            <th>Passengers(No.)</th>
                                             <th>Vehicle Type</th>
-                                            <th>Rider</th>
-                                            <th>Brand</th>
-                                            <th>Model</th>
-                                            <th>Vehicle Year</th>
-                                            <th>Vehicle Colour</th>
-                                            <th>License Number</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach($vehicle as $v)
+                                        @foreach($booking as $v)
                                             <tr>
                                                 <td>{{$loop->iteration}}</td>
+                                                <td>{{ $v->user->name }}</td>
+                                                <td>{{ $v->origin }}</td>
+                                                <td>{{ $v->destination }}</td>
+                                                <td>{{ $v->passenger_number }}</td>
                                                 <td>{{ $v->vehicleType->name }}</td>
-                                                <td>{{ $v->rider->user->name }}</td>
-                                                <td>{{ $v->brand }}</td>
-                                                <td>{{ $v->model }}</td>
-                                                <td>{{ $v->vehicle_year }}</td>
-                                                <td>{{ $v->vehicle_colour }}</td>
-                                                <td>{{ $v->license_number }}</td>
-                                                <td id="none">@if($v->status==0) <span style="color:red;font-weight: bold">Inactive</span> @else <span style="color:green;font-weight: bold">Active</span> @endif</td>
+                                                <td id="none">@if($v->status==0) <span style="color:green;font-weight: bold">Booked</span> @else <span style="color:red;font-weight: bold">Canceled by User</span> @endif</td>
                                                 <td id="none">
-                                                    <a href="{{route('statusV', ['id'=>$v->id])}}" style="font-weight: bold">@if($v->status==1)<button class="btn-sm btn-primary btn-danger"> Inactive </button>@else<button class="btn-sm btn-primary btn-success"> Active </button>@endif</a>
-                                                    <a href="{{route('vehicle.edit',$v->id)}}"><i class="fa fa-lg fa-edit"></i></a>
-                                                    @method('DELETE')
-                                                    <a onclick="return confirm('Do you want to delete')" href="{{route('ve.destroy',$v->id)}}"><i class="fa fa-lg fa-minus-circle" style="color:red"></i></a>
+                                                    <a href="{{route('statusB', ['id'=>$v->id])}}" style="font-weight: bold">@if($v->status==1)<button class="btn-sm btn-primary btn-success"> Accept </button>@else<button class="btn-sm btn-primary btn-danger"> Cancel </button>@endif</a>
+{{--                                                    <a href="{{route('vehicle.edit',$v->id)}}"><i class="fa fa-lg fa-edit"></i></a>--}}
+{{--                                                    @method('DELETE')--}}
+{{--                                                    <a onclick="return confirm('Do you want to delete')" href="{{route('ve.destroy',$v->id)}}"><i class="fa fa-lg fa-minus-circle" style="color:red"></i></a>--}}
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -78,13 +74,11 @@
                                         <tfoot>
                                         <tr>
                                             <th>ID</th>
+                                            <th>Booking By:</th>
+                                            <th>Origin</th>
+                                            <th>Destination</th>
+                                            <th>Passengers(No.)</th>
                                             <th>Vehicle Type</th>
-                                            <th>Rider</th>
-                                            <th>Brand</th>
-                                            <th>Model</th>
-                                            <th>Vehicle Year</th>
-                                            <th>Vehicle Colour</th>
-                                            <th>License Number</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>

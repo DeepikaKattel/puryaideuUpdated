@@ -44,6 +44,11 @@ class HomeController extends Controller
         return redirect('/admin/login');
     }
 
+    public function chartjs()
+    {
+        return view('approval');
+    }
+
 
 
 }

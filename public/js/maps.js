@@ -37,7 +37,16 @@ function calcRoute(){
         if (status == google.maps.DirectionsStatus.OK){
             //get distance and time
             const output = document.querySelector('#output');
-            output.innerHTML = "<div class='alert-info'> From:" + document.getElementById("from").value + ".<br/>TO: " + document.getElementById("to").value + ". <br/> Driving distance:" + result.routes[0].legs[0].distance.text + ".<br/>Duration:" + result.routes[0].legs[0].duration.text + ". </div>";
+            output.innerHTML = "<div class=\"form-group row\">\n" +
+                "            <div class=\"col-6\">\n" +
+                "                <label>Distance</label>\n"+
+                "                <input required type=\"text\" class=\"form-control\" name=\"distance\" placeholder=\"Distance\" value=\"" + result.routes[0].legs[0].distance.text + "\">\n" +
+                "            </div>\n" +
+                "            <div class=\"col-6\">\n" +
+                "                <label>Duration</label>\n"+
+                "                <input required type=\"text\" class=\"form-control\" name=\"duration\" placeholder=\"Duration\" value=\"" + result.routes[0].legs[0].duration.text + "\">\n" +
+                "            </div>\n" +
+                "</div>";
             directionsDisplay.setDirections(result);
         }else{
             //delete route from map

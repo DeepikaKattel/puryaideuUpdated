@@ -75,11 +75,10 @@
                         <div class="small-box bg-danger">
                             <div class="inner">
                                 <h3>{{ Session::get('total_users_unapproved') }}</h3>
-
                                 <p>Unapproved Users</p>
                             </div>
                             <div class="icon">
-                                <i class="ion ui-icon-person"></i>
+                                <i class="ion ion-person"></i>
                             </div>
                             <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
@@ -87,13 +86,27 @@
                                     <!-- ./col -->
                     <div class="col-lg-3 col-6">
                         <!-- small box -->
-                        <div class="small-box bg-danger">
+                        <div class="small-box bg-success">
                             <div class="inner">
                                 <h3>{{ Session::get('riders') ? : 0}}</h3>
                                 <p>Riders</p>
                             </div>
                             <div class="icon">
-                                <i class="ion ui-icon-person"></i>
+                                <i class="ion ion-android-people"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-secondary">
+                            <div class="inner">
+                                <h3>{{ Session::get('vehicles') ? : 0}}</h3>
+                                <p>Vehicles</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-android-subway"></i>
                             </div>
                             <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>

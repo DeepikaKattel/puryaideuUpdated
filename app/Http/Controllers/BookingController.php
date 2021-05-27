@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Booking;
 use App\Rider;
-use App\Vehicle;
+use App\User;
+use App\VehicleType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +19,7 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $booking= VehicleType::with('vehicleType','user')->get();
+        $booking= Booking::with('vehicleType','user')->get();
         return view('admin.booking.index', compact('booking'));
     }
 
@@ -30,7 +31,8 @@ class BookingController extends Controller
     public function create()
     {
         $vehicleType = DB::table('vehicle_types')->get();
-        return view('admin.booking.create',compact('vehicleType'));
+        $users = User::where('role','3')->get();
+        return view('admin.booking.create',compact('vehicleType','users'));
     }
 
     /**
@@ -44,14 +46,19 @@ class BookingController extends Controller
         $booking = new Booking();
         $booking->origin = request('origin');
         $booking->destination = request('destination');
+        $booking->distance = request('distance');
+        $booking->duration = request('duration');
         $booking->passenger_number = request('passenger_number');
-        $booking->name = request('name');
-        $booking->phone_number = request('phone_number');
         $booking->vehicle_type = request('vehicle_type');
         if(Auth::user()->isCustomer()) {
             $booking->user_id = Auth::user()->id;
         }else{
             $booking->user_id = request('user_id');
+        }
+        $count = count((is_countable($request->name)?$request->name:[]));
+        for ($i=0; $i < $count; $i++) {
+            $booking->name = json_encode($request->name);
+            $booking->phone_number = json_encode($request->phone_number);
         }
         $booking->save();
         $bookingsave = $booking->save();

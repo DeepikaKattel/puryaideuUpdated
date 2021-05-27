@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('admin/login');
 });
 
 
@@ -29,6 +29,9 @@ Route::middleware(['approved'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
 });
 Route::middleware(['admin'])->group(function () {
+
+    Route::get('chartjs', 'HomeController@chartjs');
+
     Route::get('/users_unapproved', 'UserController@unapproved')->name('admin.unapproved');
     Route::post('/users/{rider_id}/approve', 'UserController@approve')->name('admin.approve');
 
@@ -57,6 +60,9 @@ Route::middleware(['admin'])->group(function () {
     Route::get('statusR{id}', 'RiderController@status')->name('statusR');
     Route::get('license/{id}', 'RiderController@show')->name('license.show');
     Route::get('/rider/destroy/{id}', 'RiderController@destroy')->name('ri.destroy');
+
+    Route::resource('/booking', 'BookingController');
+    Route::get('statusB{id}', 'BookingController@status')->name('statusB');
 
 
 });

@@ -152,6 +152,7 @@
 <script src="{{asset('js/rider.js')}}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDahTFo6d3O6opOJ6rndcw9IplFimxkqw&libraries=places" type="text/javascript"></script>
 <script src="{{asset('js/maps.js')}}"></script>
+<script src="{{asset('js/formField.js')}}"></script>
 
 <!-- page script -->
 <script>
@@ -171,6 +172,7 @@
         });
     });
 </script>
+
 
 </body>
 </html>
