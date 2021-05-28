@@ -27,6 +27,7 @@
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Table showing plan types</h3>
+                    <a href="{{ route('planType.create') }}" class="btn btn-primary btn-sm float-right">Add Plan Type</a>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">

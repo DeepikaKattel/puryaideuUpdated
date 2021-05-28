@@ -86,7 +86,7 @@ class RiderController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'license' => ['required|mimetypes:application/pdf'],
+            'license' => ['required'],
         ]);
         $rider = Rider::find($id);
         if($request->hasFile('license')){
@@ -136,9 +136,10 @@ class RiderController extends Controller
             'contact2' => ['required'],
             'city' => ['required'],
             'area' => ['required'],
-            'license' => ['required|mimetypes:application/pdf'],
+            'license' => ['required'],
             'license_number' => ['required'],
-            'experience' => ['required']
+            'experience' => ['required'],
+            'wallet'=> ['required'],
         ]);
 
         $user = new User([
@@ -172,6 +173,7 @@ class RiderController extends Controller
             'license_number' => $request->input('license_number'),
             'license' => $fileNameToStore1,
             'experience' => $request->input('experience'),
+            'wallet' => $request->input('wallet'),
         ]);
         $rider->save();
 

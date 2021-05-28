@@ -80,7 +80,7 @@
                                                 <input type="file" name="license" id="license" style="display: none"/>
                                                 <label for="license" class="m-3">Click to upload License</label>
                                             </div>
-                                            <button type="submit" class="btn btn-primary"></button>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
                                         </form>
                                     </div>
 {{--                                    <div class="modal-footer">--}}

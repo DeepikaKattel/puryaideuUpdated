@@ -71,165 +71,165 @@
                     </a>
                 </li>
                 <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('users.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             Users
-                            <i class="fas fa-angle-left right"></i>
+{{--                            <i class="fas fa-angle-left right"></i>--}}
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('users.index') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>List Users</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('users.create') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Add Users</p>
-                            </a>
-                        </li>
-                    </ul>
+{{--                    <ul class="nav nav-treeview">--}}
+{{--                        <li class="nav-item">--}}
+{{--                            <a href="{{ route('users.index') }}" class="nav-link">--}}
+{{--                                <i class="far fa-circle nav-icon"></i>--}}
+{{--                                <p>List Users</p>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                        <li class="nav-item">--}}
+{{--                            <a href="{{ route('users.create') }}" class="nav-link">--}}
+{{--                                <i class="far fa-circle nav-icon"></i>--}}
+{{--                                <p>Add Users</p>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    </ul>--}}
                 </li>
                 <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('vehicleType.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-car-battery"></i>
                         <p>
-                            Vehicle Type
-                            <i class="fas fa-angle-left right"></i>
+                            Add Vehicle Type
+{{--                            <i class="fas fa-angle-left right"></i>--}}
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('vehicleType.index') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>List Vehicle Type</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('vehicleType.create') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Add Vehicle Type</p>
-                            </a>
-                        </li>
-                    </ul>
+{{--                    <ul class="nav nav-treeview">--}}
+{{--                        <li class="nav-item">--}}
+{{--                            <a href="{{ route('vehicleType.index') }}" class="nav-link">--}}
+{{--                                <i class="far fa-circle nav-icon"></i>--}}
+{{--                                <p>List Vehicle Type</p>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                        <li class="nav-item">--}}
+{{--                            <a href="{{ route('vehicleType.create') }}" class="nav-link">--}}
+{{--                                <i class="far fa-circle nav-icon"></i>--}}
+{{--                                <p>Add Vehicle Type</p>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    </ul>--}}
                 </li>
                 <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('vehicle.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-car"></i>
                         <p>
                             Vehicle
-                            <i class="fas fa-angle-left right"></i>
+{{--                            <i class="fas fa-angle-left right"></i>--}}
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('vehicle.index') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>List Vehicle</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('vehicle.create') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Add Vehicle</p>
-                            </a>
-                        </li>
-                    </ul>
+{{--                    <ul class="nav nav-treeview">--}}
+{{--                        <li class="nav-item">--}}
+{{--                            <a href="{{ route('vehicle.index') }}" class="nav-link">--}}
+{{--                                <i class="far fa-circle nav-icon"></i>--}}
+{{--                                <p>List Vehicle</p>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                        <li class="nav-item">--}}
+{{--                            <a href="{{ route('vehicle.create') }}" class="nav-link">--}}
+{{--                                <i class="far fa-circle nav-icon"></i>--}}
+{{--                                <p>Add Vehicle</p>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    </ul>--}}
                 </li>
                 <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('price.index') }}" class="nav-link">
                         <i class="nav-icon fa fa-dollar-sign"></i>
                         <p>
                             Transaction
-                            <i class="fas fa-angle-left right"></i>
+{{--                            <i class="fas fa-angle-left right"></i>--}}
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('price.index') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>List Price</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('price.create') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Add Price</p>
-                            </a>
-                        </li>
-                    </ul>
+{{--                    <ul class="nav nav-treeview">--}}
+{{--                        <li class="nav-item">--}}
+{{--                            <a href="{{ route('price.index') }}" class="nav-link">--}}
+{{--                                <i class="far fa-circle nav-icon"></i>--}}
+{{--                                <p>List Price</p>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                        <li class="nav-item">--}}
+{{--                            <a href="{{ route('price.create') }}" class="nav-link">--}}
+{{--                                <i class="far fa-circle nav-icon"></i>--}}
+{{--                                <p>Add Price</p>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    </ul>--}}
                 </li>
                 <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('planType.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-gifts"></i>
                         <p>
                             Plan Type
-                            <i class="fas fa-angle-left right"></i>
+{{--                            <i class="fas fa-angle-left right"></i>--}}
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('planType.index') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>List Plan Type</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('planType.create') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Add Plan Type</p>
-                            </a>
-                        </li>
-                    </ul>
+{{--                    <ul class="nav nav-treeview">--}}
+{{--                        <li class="nav-item">--}}
+{{--                            <a href="{{ route('planType.index') }}" class="nav-link">--}}
+{{--                                <i class="far fa-circle nav-icon"></i>--}}
+{{--                                <p>List Plan Type</p>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                        <li class="nav-item">--}}
+{{--                            <a href="{{ route('planType.create') }}" class="nav-link">--}}
+{{--                                <i class="far fa-circle nav-icon"></i>--}}
+{{--                                <p>Add Plan Type</p>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    </ul>--}}
                 </li>
                 <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('plan.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-gift"></i>
                         <p>
                             Plan
-                            <i class="fas fa-angle-left right"></i>
+{{--                            <i class="fas fa-angle-left right"></i>--}}
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('plan.index') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>List Plan</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('plan.create') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Add Plan</p>
-                            </a>
-                        </li>
-                    </ul>
+{{--                    <ul class="nav nav-treeview">--}}
+{{--                        <li class="nav-item">--}}
+{{--                            <a href="{{ route('plan.index') }}" class="nav-link">--}}
+{{--                                <i class="far fa-circle nav-icon"></i>--}}
+{{--                                <p>List Plan</p>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                        <li class="nav-item">--}}
+{{--                            <a href="{{ route('plan.create') }}" class="nav-link">--}}
+{{--                                <i class="far fa-circle nav-icon"></i>--}}
+{{--                                <p>Add Plan</p>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    </ul>--}}
                 </li>
                 <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('booking.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-calendar-check"></i>
                         <p>
                             Booking
-                            <i class="fas fa-angle-left right"></i>
+{{--                            <i class="fas fa-angle-left right"></i>--}}
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('booking.index') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>List Bookings</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('booking.create') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Add Booking</p>
-                            </a>
-                        </li>
-                    </ul>
+{{--                    <ul class="nav nav-treeview">--}}
+{{--                        <li class="nav-item">--}}
+{{--                            <a href="{{ route('booking.index') }}" class="nav-link">--}}
+{{--                                <i class="far fa-circle nav-icon"></i>--}}
+{{--                                <p>List Bookings</p>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                        <li class="nav-item">--}}
+{{--                            <a href="{{ route('booking.create') }}" class="nav-link">--}}
+{{--                                <i class="far fa-circle nav-icon"></i>--}}
+{{--                                <p>Add Booking</p>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    </ul>--}}
                 </li>
 
 {{--                <li class="nav-item has-treeview">--}}

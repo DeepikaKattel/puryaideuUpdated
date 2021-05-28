@@ -75,7 +75,7 @@
     <div class="containerCustomer go-register">
         <!-- Login Form Starts -->
         <div class="form__container form__container-login">
-            <form method="POST" action="/login/rider" class="form">
+            <form action="/login/rider" method="post" enctype="multipart/form-data" class="form">
                 @csrf
                 <h3 class="form__heading"> Sign In</h3>
                 <ul class="list list__inline list__social">
@@ -110,7 +110,7 @@
         <!-- Login Form Ends -->
         <!-- Register Form Starts -->
         <div class="form__container form__container-register">
-            <form method="POST" action="{{ route('rider.register') }}" class="form">
+            <form action="{{ route('rider.register') }}" class="form" method="post" enctype="multipart/form-data">
                 @csrf
                 <h3 class="form__heading"> Create Account</h3>
                 <ul class="list list__inline list__social">

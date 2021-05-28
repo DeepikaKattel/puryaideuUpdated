@@ -88,8 +88,6 @@ class LoginController extends Controller
         ])->get();
 
 
-
-
         if (count($user) >= 1){
             $credentials = $request->only('email', 'password');
 

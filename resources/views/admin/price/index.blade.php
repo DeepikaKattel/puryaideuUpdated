@@ -27,6 +27,7 @@
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Table showing transactions</h3>
+                    <a href="{{ route('price.create') }}" class="btn btn-primary btn-sm float-right">Add Price</a>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">

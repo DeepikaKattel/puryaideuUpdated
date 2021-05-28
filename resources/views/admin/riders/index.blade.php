@@ -47,6 +47,7 @@
                                             <th>Vehicles</th>
                                             <th>Contact</th>
                                             <th>License</th>
+                                            <th>Wallet</th>
                                             <th>Registered at</th>
                                             <th>Status</th>
                                             <th>Action</th>
@@ -60,11 +61,12 @@
                                                 <td>
                                                     @foreach($user->vehicle as $vehicles)
                                                         {{$vehicles->vehicleType->name}} -
-                                                        {{$vehicles->id}},
+                                                        {{$vehicles->id}}
                                                     @endforeach
                                                 </td>
                                                 <td>{{ $user->user->contact1 }}</td>
                                                 <td><a href="{{route('license.show',$user->id)}}" class="btn btn-sm btn-primary"><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>
+                                                <td>{{ $user->wallet }}</td>
                                                 <td>{{ $user->created_at }}</td>
                                                 <td id="none">@if($user->status==0) <span style="color:red;font-weight: bold">Inactive</span> @else <span style="color:green;font-weight: bold">Active</span> @endif</td>
                                                 <td id="none">
