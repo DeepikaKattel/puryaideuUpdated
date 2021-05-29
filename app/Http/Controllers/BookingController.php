@@ -8,6 +8,7 @@ use App\User;
 use App\VehicleType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
@@ -19,7 +20,9 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $booking= Booking::with('vehicleType','user')->get();
+        $booking = Cache::remember('booking', 60, function() {
+            return Booking::with('vehicleType','user')->get();
+        });
         return view('admin.booking.index', compact('booking'));
     }
 
@@ -43,6 +46,7 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
+        Cache::forget('booking');
         $booking = new Booking();
         $booking->origin = request('origin');
         $booking->destination = request('destination');

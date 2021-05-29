@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\UserCreated;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -19,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name','role','email', 'password','gender','dob','contact1','contact2','city','area','approved_at'
     ];
+
 
     /**
      * The attributes that should be hidden for arrays.

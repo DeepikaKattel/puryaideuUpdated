@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {
@@ -49,7 +50,10 @@ class UserController extends Controller
     }
 
     public function index(){
-        $users = User::with('roles')->whereNotNull('approved_at')->get();
+        $users = Cache::remember('users', 60, function() {
+            return User::with('roles')->whereNotNull('approved_at')->get();
+        });
+
         return view('admin.users.index', compact('users'));
     }
 
@@ -61,6 +65,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        Cache::forget('users');
         $error = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
