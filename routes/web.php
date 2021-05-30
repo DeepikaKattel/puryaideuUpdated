@@ -55,6 +55,7 @@ Route::middleware(['admin'])->group(function () {
 
     Route::resource('/plan', 'PlanController');
     Route::get('/plan/destroy/{id}', 'PlanController@destroy')->name('pl.destroy');
+    Route::get('statusPl{id}', 'PlanController@status')->name('statusPl');
 
     Route::get('/riders','RiderController@index')->name('riders.index');
     Route::get('statusR{id}', 'RiderController@status')->name('statusR');

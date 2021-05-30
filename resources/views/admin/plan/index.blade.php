@@ -45,8 +45,13 @@
                     <tr>
                       <th>ID</th>
                       <th>Title</th>
+                        <th>Validity</th>
+                        <th>Activation Date</th>
+                        <th>Expiry Date</th>
+                        <th>Usage Limit</th>
+                        <th>Used</th>
                       <th>Plan Type</th>
-                      <th>Value</th>
+                      <th>Status</th>
                       <th>Action</th>
                     </tr>
                     </thead>
@@ -55,9 +60,15 @@
                         <tr>
                             <td>{{$loop->iteration}}</td>
                             <td>{{ $p->title}}</td>
+                            <td>{{ $p->validity}}</td>
+                            <td>{{ $p->activation_date}}</td>
+                            <td>{{ $p->expire_date}}</td>
+                            <td>{{ $p->usage_limit}}</td>
+                            <td>{{ $p->used}}</td>
                             <td>{{ $p->plan_type }}</td>
-                            <td>{{ $p->value }}</td>
+                            <td id="none">@if($p->status==0) <span style="color:red;font-weight: bold">Inactive</span> @else <span style="color:green;font-weight: bold">Active</span> @endif</td>
                            <td id="none">
+                               <a href="{{route('statusPl', ['id'=>$p->id])}}" style="font-weight: bold">@if($p->status==1)<button class="btn-xs btn-primary btn-danger"> Inactive </button>@else<button class="btn-xs btn-primary btn-success"> Active </button>@endif</a>
                               <a href="{{route('plan.edit',$p->id)}}"><i class="fa fa-lg fa-edit"></i></a>
                               @method('DELETE')
                               <a onclick="return confirm('Do you want to delete')" href="{{route('pl.destroy',$p->id)}}"><i class="fa fa-lg fa-minus-circle" style="color:red"></i></a>
@@ -69,9 +80,15 @@
                     <tr>
                         <th>ID</th>
                         <th>Title</th>
+                        <th>Validity</th>
+                        <th>Activation Date</th>
+                        <th>Expiry Date</th>
+                        <th>Usage Limit</th>
+                        <th>Used</th>
                         <th>Plan Type</th>
-                        <th>Value</th>
+                        <th>Status</th>
                         <th>Action</th>
+
                     </tr>
                     </tfoot>
                   </table>

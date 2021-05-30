@@ -42,6 +42,14 @@
                                             <input type="text" class="form-control" name="title" placeholder="Title" value="{{old('title',$plan->title)}}">
                                         </div>
                                         <div class="form-group">
+                                            <select class="form-control" name="validity" required>
+                                                <option value="" selected="" disabled>Select</option>
+                                                <option value="custom">Custom</option>
+                                                <option value="custom">Permanent</option>
+                                            </select>
+                                            <span class="select-arrow"></span>
+                                        </div>
+                                        <div class="form-group">
                                             <select class="form-control" name="plan_type" required>
                                                 <option value="" selected="" disabled>Plan Type</option>
                                                 @foreach($planType as $plan)
@@ -51,8 +59,18 @@
                                             <span class="select-arrow"></span>
                                         </div>
                                         <div class="form-group">
-                                            <input type="number" class="form-control" name="value" placeholder="Value">
+                                            <input type="text" class="form-control" onfocus="(this.type='date')" placeholder="Date of Birth" name="activation_date" value="{{old('activation_date',$plan->activation_date)}}" required>
                                         </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" onfocus="(this.type='date')" placeholder="Date of Birth" name="expire_date" required value="{{old('expire_date',$plan->expire_date)}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="number" class="form-control" name="usage_limit" placeholder="Usage Limit" value="{{old('usage_limit',$plan->usage_limit)}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="number" class="form-control" name="used" placeholder="Used" value="{{old('used',$plan->used)}}">
+                                        </div>
+
                                     </div>
 
                                     <!-- /.card-body -->

@@ -16,8 +16,13 @@ class CreatePlansTable extends Migration
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->enum('validity',['custom','permanent']);
+            $table->date('activation_date');
+            $table->date('expire_date');
+            $table->integer('usage_limit');
+            $table->integer('used')->nullable();
             $table->unsignedBigInteger('plan_type');
-            $table->integer('value');
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Plan;
 use App\Price;
+use App\Vehicle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class PlanController extends Controller
@@ -16,7 +18,9 @@ class PlanController extends Controller
      */
     public function index()
     {
-        $plan = Plan::with('planType')->get();
+        $plan = Cache::remember('users', 60, function() {
+            return Plan::with('planType')->get();
+        });
         return view('admin.plan.index', compact('plan'));
     }
 
@@ -39,10 +43,15 @@ class PlanController extends Controller
      */
     public function store(Request $request)
     {
+        Cache::forget('plan');
         $plan = new Plan();
         $plan->title = request('title');
         $plan->plan_type = request('plan_type');
-        $plan->value = request('value');
+        $plan->validity = request('validity');
+        $plan->activation_date = request('activation_date');
+        $plan->expire_date = request('expire_date');
+        $plan->usage_limit = request('usage_limit');
+        $plan->used = request('used');
 
         $plan->save();
         $plans =  $plan->save();
@@ -86,10 +95,15 @@ class PlanController extends Controller
      */
     public function update(Request $request, $id)
     {
+        Cache::forget('plan');
         $plan = Plan::find($id);
         $plan->title = request('title');
         $plan->plan_type = request('plan_type');
-        $plan->value = request('value');
+        $plan->validity = request('validity');
+        $plan->activation_date = request('activation_date');
+        $plan->expire_date = request('expire_date');
+        $plan->usage_limit = request('usage_limit');
+        $plan->used = request('used');
         $plan->save();
 
         if ($plan) {
@@ -109,5 +123,22 @@ class PlanController extends Controller
     {
         $plan = Plan::find($id)->delete();
         return redirect('/plan')->with('status','Deleted Successfully');
+    }
+
+    public function status(Request $request, $id){
+
+        $data = Plan::find($id);
+
+        if($data->status==0){
+            Cache::forget('plan');
+            $data->status=1;
+        }else{
+            Cache::forget('plan');
+            $data->status=0;
+        }
+
+        $data->save();
+        return redirect()->back()->with('message', 'Status of'.' '.$data->model.' '.'has been changed successfully');
+
     }
 }
