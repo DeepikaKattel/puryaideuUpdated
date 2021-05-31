@@ -57,6 +57,10 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/plan/destroy/{id}', 'PlanController@destroy')->name('pl.destroy');
     Route::get('statusPl{id}', 'PlanController@status')->name('statusPl');
 
+    Route::resource('/banner', 'BannersController');
+    Route::get('/banner/destroy/{id}', 'BannersController@destroy')->name('ba.destroy');
+    Route::get('statusB{id}', 'BannersController@status')->name('statusB');
+
     Route::get('/riders','RiderController@index')->name('riders.index');
     Route::get('statusR{id}', 'RiderController@status')->name('statusR');
     Route::get('license/{id}', 'RiderController@show')->name('license.show');
