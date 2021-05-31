@@ -15,7 +15,7 @@ class AddTrainedToRidersTable extends Migration
     {
         Schema::table('riders', function (Blueprint $table) {
             $table->enum('trained', ['YES', 'NO']);
-            $table->boolean('status')->nullable();
+            $table->boolean('status')->default(0);
         });
     }
 

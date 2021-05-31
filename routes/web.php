@@ -69,6 +69,8 @@ Route::middleware(['admin'])->group(function () {
     Route::resource('/booking', 'BookingController');
     Route::get('statusB{id}', 'BookingController@status')->name('statusB');
 
+    Route::get('/chart','HomeController@chart')->name('chart');
+
 
 });
 Route::get('/approval', 'HomeController@approval')->name('approval');

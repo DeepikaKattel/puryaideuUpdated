@@ -85,6 +85,7 @@
                                             <th>Vehicles</th>
                                             <th>Contact</th>
                                             <th>License</th>
+                                            <th>Wallet</th>
                                             <th>Registered at</th>
                                             <th>Status</th>
                                             <th>Action</th>
