@@ -37,7 +37,17 @@ class HomeController extends Controller
         Session::put('inactiveCount',$inactiveCount);
         $activeCount = count($active);
         Session::put('activeCount',$activeCount);
-        return view('admin.dashboard',compact('activeCount','inactiveCount'));
+        $bike = DB::table('vehicle_types')->where('name','=','Bike')->get();
+        $bikeCount = count($bike);
+        Session::put('bikeCount',$bikeCount);
+        $car = DB::table('vehicle_types')->where('name','=','Car')->get();
+        $carCount = count($car);
+        Session::put('carCount',$carCount);
+
+        $safari = DB::table('vehicle_types')->where('name','=','City Safari')->get();
+        $safariCount = count($safari);
+        Session::put('safariCount',$safariCount);
+        return view('admin.dashboard',compact('activeCount','inactiveCount','bikeCount','carCount','safariCount'));
     }
 
     public function approval()
