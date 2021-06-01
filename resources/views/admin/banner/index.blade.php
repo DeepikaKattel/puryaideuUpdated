@@ -62,7 +62,7 @@
                                                 <td>{{ $b->added_date }}</td>
                                                 <td id="none">@if($b->status==0) <span style="color:red;font-weight: bold">Inactive</span> @else <span style="color:green;font-weight: bold">Active</span> @endif</td>
                                                 <td id="none">
-                                                    <a href="{{route('statusB', ['id'=>$b->id])}}" style="font-weight: bold">@if($b->status==1)<button class="btn-sm btn-primary btn-danger"> Inactive </button>@else<button class="btn-sm btn-primary btn-success"> Active </button>@endif</a>
+                                                    <a href="{{route('statusAd', ['id'=>$b->id])}}" style="font-weight: bold">@if($b->status==1)<button class="btn-sm btn-primary btn-danger"> Inactive </button>@else<button class="btn-sm btn-primary btn-success"> Active </button>@endif</a>
                                                     <a href="{{route('banner.edit',$b->id)}}"><i class="fa fa-lg fa-edit"></i></a>
                                                     @method('DELETE')
                                                     <a onclick="return confirm('Do you want to delete')" href="{{route('ba.destroy',$b->id)}}"><i class="fa fa-lg fa-minus-circle" style="color:red"></i></a>

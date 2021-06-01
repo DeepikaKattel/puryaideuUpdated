@@ -59,7 +59,7 @@ Route::middleware(['admin'])->group(function () {
 
     Route::resource('/banner', 'BannersController');
     Route::get('/banner/destroy/{id}', 'BannersController@destroy')->name('ba.destroy');
-    Route::get('statusB{id}', 'BannersController@status')->name('statusB');
+    Route::get('statusAd{id}', 'BannersController@status')->name('statusAd');
 
     Route::get('/riders','RiderController@index')->name('riders.index');
     Route::get('statusR{id}', 'RiderController@status')->name('statusR');
@@ -68,6 +68,10 @@ Route::middleware(['admin'])->group(function () {
 
     Route::resource('/booking', 'BookingController');
     Route::get('statusB{id}', 'BookingController@status')->name('statusB');
+
+    Route::get('/rides','BookingController@rides')->name('rides');
+    Route::get('statusOfRider{id}', 'BookingController@statusRider')->name('statusOfRider');
+    Route::post('riderBook/{id}','BookingController@update')->name('riderBook.update');
 
     Route::get('/chart','HomeController@chart')->name('chart');
 

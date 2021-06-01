@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Booking;
 use App\Rider;
 use App\User;
+use App\Vehicle;
 use App\VehicleType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,10 +21,19 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $booking = Cache::remember('booking', 60, function() {
+        $booking = Cache::remember('booking', 3, function() {
             return Booking::with('vehicleType','user')->get();
         });
         return view('admin.booking.index', compact('booking'));
+    }
+    public function rides()
+    {
+        $booking = Cache::remember('booking', 3, function() {
+            return Booking::with('vehicleType','user')->get();
+        });
+        $users = User::where('role','2')->get();
+        $vehicles = Vehicle::with('vehicleType')->get();
+        return view('admin.booking.rides', compact('booking','users','vehicles'));
     }
 
     /**
@@ -59,6 +69,7 @@ class BookingController extends Controller
         }else{
             $booking->user_id = request('user_id');
         }
+
         $count = count((is_countable($request->name)?$request->name:[]));
         for ($i=0; $i < $count; $i++) {
             $booking->name = json_encode($request->name);
@@ -102,9 +113,18 @@ class BookingController extends Controller
      * @param  \App\Booking  $booking
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Booking $booking)
+    public function update(Request $request, $id)
     {
-        //
+        $booking = Booking::find($id);
+        if(Auth::user()->isRider()) {
+            $booking->rider_id = Auth::user()->id;
+        }else{
+            $booking->rider_id = request('rider_id');
+        }
+        $booking->vehicle_id = request('vehicle_id');
+        $booking->save();
+
+        return redirect()->route('rides')->with('status','Rider has accepted the booking.');
     }
 
     /**
@@ -119,6 +139,7 @@ class BookingController extends Controller
     }
 
     public function status(Request $request, $id){
+        Cache::forget('booking');
         $data=Booking::find($id);
 
         if($data->status==0){
@@ -131,4 +152,22 @@ class BookingController extends Controller
         return redirect()->back()->with('message', 'The booking status'.' '.$data->id.' '.'has been changed successfully');
 
     }
+
+    public function statusRider(Request $request, $id){
+        Cache::forget('booking');
+        $data=Booking::find($id);
+
+        if($data->ride_status==0){
+            $data->ride_status = 1;
+        }elseif($data->ride_status==1){
+            $data->ride_status = 2;
+        }else{
+            $data->ride_status = 0;
+        }
+
+        $data->save();
+        return redirect()->back()->with('message', 'The booking status'.' '.$data->id.' '.'has been changed successfully');
+
+    }
+
 }
