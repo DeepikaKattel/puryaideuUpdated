@@ -115,7 +115,6 @@
                 <!-- /.row -->
                 <!-- DONUT CHART -->
                 <div class="row">
-
                         <div class="col-lg-6 col-6">
                             <div class="card card-danger">
                                 <div class="card-header">

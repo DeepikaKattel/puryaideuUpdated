@@ -139,14 +139,14 @@
 {{--                        </li>--}}
 {{--                    </ul>--}}
                 </li>
-                <li class="nav-item has-treeview">
-                    <a href="{{ route('price.index') }}" class="nav-link">
-                        <i class="nav-icon fa fa-dollar-sign"></i>
-                        <p>
-                            Transaction
+{{--                <li class="nav-item has-treeview">--}}
+{{--                    <a href="{{ route('price.index') }}" class="nav-link">--}}
+{{--                        <i class="nav-icon fa fa-dollar-sign"></i>--}}
+{{--                        <p>--}}
+{{--                            Transaction--}}
 {{--                            <i class="fas fa-angle-left right"></i>--}}
-                        </p>
-                    </a>
+{{--                        </p>--}}
+{{--                    </a>--}}
 {{--                    <ul class="nav nav-treeview">--}}
 {{--                        <li class="nav-item">--}}
 {{--                            <a href="{{ route('price.index') }}" class="nav-link">--}}
@@ -161,7 +161,7 @@
 {{--                            </a>--}}
 {{--                        </li>--}}
 {{--                    </ul>--}}
-                </li>
+{{--                </li>--}}
                 <li class="nav-item has-treeview">
                     <a href="{{ route('planType.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-gifts"></i>
