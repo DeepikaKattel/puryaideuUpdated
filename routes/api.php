@@ -18,4 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/register','Api\RegisterController@register');
+Route::post('user_register', 'Api\RegisterController@register');
+Route::post('user_login', 'Api\LoginController@login');
+Route::get('user_logout', 'Api\LoginController@logout')->middleware('auth:api');
+Route::get('auth/google', 'Api\LoginController@redirectToGoogle');
+Route::get('auth/google/callback', 'Api\LoginController@handleGoogleCallback');
