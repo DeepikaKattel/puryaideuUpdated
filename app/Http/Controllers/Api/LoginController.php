@@ -93,6 +93,12 @@ class LoginController extends Controller
         ]);
     }
 
+    public function username()
+    {
+        return 'phone';
+    }
+
+
     /**
      * @OA\Get(
      *   path="/api/user_logout",

@@ -20,11 +20,11 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('role')->default(3);
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->enum('gender', ['Male', 'Female', 'Others'])->nullable();
             $table->date('dob')->nullable();
-            $table->string('contact1')->unique();
+            $table->string('phone')->unique();
             $table->string('contact2')->nullable();
             $table->string('city')->nullable();
             $table->string('area')->nullable();

@@ -87,12 +87,12 @@ class RegisterController extends Controller
     public function register(Request $request){
         $validator = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'nullable|string|email|max:255|unique:users',
             'password' => 'required|min:8|confirmed',
             'gender' => 'nullable',
             'dob'=> 'nullable',
-            'contact1' => 'required|unique:users',
-             'contact2' => 'nullable',
+            'phone' => 'required|unique:users',
+            'contact2' => 'nullable',
             'city' => 'nullable',
             'area' => 'nullable'
         ]);
