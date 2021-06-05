@@ -98,7 +98,7 @@
 
                     <div class="form-group row">
                         <div class="col-md-6">
-                            <input type="text" class="form-control @error('contact1') is-invalid @enderror" placeholder="Contact Number" name="contact1" value="{{ old('contact1') }}" required autocomplete="contact1">
+                            <input type="text" class="form-control @error('phone') is-invalid @enderror" placeholder="Contact Number" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
 
                             @error('contact')
                             <span class="invalid-feedback" role="alert">

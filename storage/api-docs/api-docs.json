@@ -17,19 +17,17 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "email": {
-                                        "type": "string",
-                                        "format": "email"
+                                    "phone": {
+                                        "type": "string"
                                     },
-                                    "password": {
-                                        "type": "string",
-                                        "format": "password"
+                                    "code": {
+                                        "type": "string"
                                     }
                                 },
                                 "type": "object",
                                 "example": {
-                                    "email": "nitesh@gmail.com",
-                                    "password": "nitesh123"
+                                    "phone": "+977 9843670972",
+                                    "otp": "4233"
                                 }
                             }
                         }
@@ -66,6 +64,56 @@
                 ]
             }
         },
+        "/api/send_sms": {
+            "post": {
+                "tags": [
+                    "OTP"
+                ],
+                "summary": "SMS",
+                "operationId": "sms",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "phone": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Please check your phone for otp",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
         "/api/user_register": {
             "post": {
                 "tags": [
@@ -81,15 +129,11 @@
                                     "name": {
                                         "type": "string"
                                     },
-                                    "email": {
-                                        "type": "string",
-                                        "format": "email"
-                                    },
                                     "password": {
                                         "type": "string",
                                         "format": "password"
                                     },
-                                    "contact1": {
+                                    "phone": {
                                         "type": "string"
                                     }
                                 },
@@ -101,6 +145,52 @@
                 "responses": {
                     "201": {
                         "description": "Successful Registration",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/verify_user": {
+            "post": {
+                "tags": [
+                    "SMS Verification"
+                ],
+                "summary": "SMS",
+                "operationId": "sms",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "phone": {
+                                        "type": "string"
+                                    },
+                                    "code": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Verified Successfully",
                         "content": {
                             "application/json": {}
                         }

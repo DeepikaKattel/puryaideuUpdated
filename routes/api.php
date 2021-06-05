@@ -20,6 +20,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('user_register', 'Api\RegisterController@register');
 Route::post('user_login', 'Api\LoginController@login');
+Route::post('send_sms','Api\RegisterController@store');
+Route::post('verify_user','Api\RegisterController@verifyContact');
 Route::get('user_logout', 'Api\LoginController@logout')->middleware('auth:api');
 Route::get('auth/google', 'Api\LoginController@redirectToGoogle');
 Route::get('auth/google/callback', 'Api\LoginController@handleGoogleCallback');
+
+
+//Route::get('phone/verify', 'Api\PhoneVerificationController@show')->name('phoneverification.notice');
+//Route::post('phone/verify', 'Api\PhoneVerificationController@verify')->name('phoneverification.verify');
+//Route::post('build-twiml/{code}', 'Api\PhoneVerificationController@buildTwiMl')->name('phoneverification.build');

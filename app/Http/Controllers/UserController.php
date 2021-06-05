@@ -73,7 +73,7 @@ class UserController extends Controller
             'gender' => ['required'],
             'role' => ['required'],
             'dob'=> ['required'],
-            'contact1' => ['required'],
+            'phone' => ['required'],
             'contact2' => ['required'],
             'city' => ['required'],
             'area' => ['required']
@@ -86,7 +86,7 @@ class UserController extends Controller
         $user->password = Hash::make($request['password']);
         $user->gender = request('gender');
         $user->dob = request('dob');
-        $user->contact1 = request('contact1');
+        $user->phone = request('phone');
         $user->contact2 = request('contact2');
         $user->city = request('city');
         $user->area = request('area');

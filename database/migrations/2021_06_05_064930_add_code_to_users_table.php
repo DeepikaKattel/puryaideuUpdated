@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPhoneVerificationToUsersTable extends Migration
+class AddCodeToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class AddPhoneVerificationToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('verification_code')->unique()->nullable();
-            $table->timestamp('phone_verified_at')->nullable();
+            $table->string('code')->nullable();
+            $table->string('code_status')->default('pending');
         });
     }
 

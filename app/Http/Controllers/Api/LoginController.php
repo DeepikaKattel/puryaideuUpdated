@@ -20,16 +20,15 @@ class LoginController extends Controller
      *         mediaType="application/json",
      *         @OA\Schema(
      *             @OA\Property(
-     *                 property="email",
-     *                 type="string",
-     *                 format="email"
+     *                 property="phone",
+     *                 type="string"
      *             ),
      *             @OA\Property(
-     *                 property="password",
-     *                 type="string",
-     *                  format="password"
+     *                 property="code",
+     *                 type="string"
+     *
      *             ),
-     *             example={"email": "nitesh@gmail.com", "password": "nitesh123"}
+     *             example={"phone": "+977 9843670972", "otp": "4233"}
      *         )
      *     )
      *   ),
@@ -43,25 +42,50 @@ class LoginController extends Controller
      *   )
      *)
      **/
+
+
+//    public function login(Request $request)
+//    {
+//        $loginData = $request->validate([
+//            'phone' => 'required',
+//            'password'=>'required'
+//        ]);
+//
+//        $user = User::where('email', '=', $request->email)->first();
+//        if ($user === null) {
+//            return response(['phone' => 'This User does not exist, check your details'], 400);
+//        }
+//        if (Auth::attempt(['phone'=>$request->phone]) ) {
+//            $accessToken = auth()->user()->createToken('authToken')->accessToken;
+//            return response(['user' => auth()->user(), 'access_token' => $accessToken,'success' => 'Logged in successfully']);
+//        }
+//        return response(['success' => 'Not authorized'], 400);
+//
+//
+//    }
     public function login(Request $request)
     {
         $loginData = $request->validate([
-            'email' => 'email|required',
-            'password' => 'required'
+            'phone' => 'required',
+            'code'=>'required'
         ]);
 
-        $user = User::where('email', '=', $request->email)->first();
+        $user = User::where([['phone','=', $request->phone],['code','=',$request->code]])->first();
         if ($user === null) {
-            return response(['email' => 'This User does not exist, check your details'], 400);
+            return response(['phone' => 'This User does not exist, check your details'], 400);
+        }elseif($user){
+            Auth::login($user,true);
+            $accessToken = auth()->user()->createToken('authToken')->accessToken;
+            return response(['user' => auth()->user(), 'access_token' => $accessToken,'success' => 'Logged in successfully'],200);
+        }else{
+            return response(['success' => 'Not authorized'], 400);
         }
 
-        if (!auth()->attempt($loginData)) {
-            return response(['password' => 'Password Incorrect'], 400);
-        }
 
-        $accessToken = auth()->user()->createToken('authToken')->accessToken;
 
-        return response(['user' => auth()->user(), 'access_token' => $accessToken,'success' => 'Logged in successfully']);
+
+
+
     }
 
 
@@ -93,10 +117,7 @@ class LoginController extends Controller
         ]);
     }
 
-    public function username()
-    {
-        return 'phone';
-    }
+
 
 
     /**

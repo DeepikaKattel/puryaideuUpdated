@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Twilio\Rest\Client;
 
 class User extends Authenticatable
 {
@@ -19,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name','role','email', 'password','gender','dob','phone','contact2','city','area','approved_at','google_id','facebook_id'
+        'name','role','email', 'password','gender','dob','phone','contact2','city','area','approved_at','google_id','facebook_id','code','code_status'
     ];
 
 
@@ -39,7 +40,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'phone_verified_at' => 'datetime',
     ];
 
     public function hasVerifiedPhone()
@@ -74,5 +74,36 @@ class User extends Authenticatable
 
     public function riders(){
         return $this->hasMany(Rider::class,'user_id','id');
+    }
+
+
+//    public function callToVerify()
+//    {
+//        $code = random_int(100000, 999999);
+//
+//        $this->forceFill([
+//            'verification_code' => $code
+//        ])->save();
+//
+//        $client = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
+//
+//        $client->calls->create(
+//            $this->phone,
+//            "+17082653883", // REPLACE WITH YOUR TWILIO NUMBER
+//            ["url" => "http://your-ngrok-url>/build-twiml/{$code}"]
+//        );
+//    }
+
+    public function store($request)
+    {
+        $this->fill($request->all());
+        $sms = $this->save();
+        return response()->json($sms, 200);
+    }
+
+    public function updateModel($request)
+    {
+        $this->update($request->all());
+        return $this;
     }
 }
