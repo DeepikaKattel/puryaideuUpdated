@@ -23,12 +23,8 @@ class LoginController extends Controller
      *                 property="phone",
      *                 type="string"
      *             ),
-     *             @OA\Property(
-     *                 property="code",
-     *                 type="string"
      *
-     *             ),
-     *             example={"phone": "+977 9843670972", "otp": "4233"}
+     *             example={"phone": "+977 9843670972"}
      *         )
      *     )
      *   ),
@@ -67,10 +63,9 @@ class LoginController extends Controller
     {
         $loginData = $request->validate([
             'phone' => 'required',
-            'code'=>'required'
         ]);
 
-        $user = User::where([['phone','=', $request->phone],['code','=',$request->code]])->first();
+        $user = User::where([['phone','=', $request->phone],['code_status','=','verified']])->first();
         if ($user === null) {
             return response(['phone' => 'This User does not exist, check your details'], 400);
         }elseif($user){
@@ -80,12 +75,6 @@ class LoginController extends Controller
         }else{
             return response(['success' => 'Not authorized'], 400);
         }
-
-
-
-
-
-
     }
 
 

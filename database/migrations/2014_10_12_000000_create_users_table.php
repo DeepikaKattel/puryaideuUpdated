@@ -28,7 +28,7 @@ class CreateUsersTable extends Migration
             $table->string('contact2')->nullable();
             $table->string('city')->nullable();
             $table->string('area')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->timestamp('approved_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

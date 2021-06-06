@@ -87,6 +87,7 @@ class RegisterController extends Controller
     {
         $code = rand(1000, 9999); //generate random code
         $request['code'] = $code; //add code in $request body
+        $request['approved_at'] = Carbon::now();
         $this->user->store($request); //call store method of model
         return $this->sendSms($request);// send and return its response
     }
@@ -179,7 +180,7 @@ class RegisterController extends Controller
 
         $accessToken = $user->createToken('authToken')->accessToken;
 
-        return response(['user' => $user, 'access_token' => $accessToken],200);
+        return response(['user' => $user, 'access_token' => $accessToken],201);
     }
     /**
      * @OA\Post(

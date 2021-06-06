@@ -19,15 +19,11 @@
                                 "properties": {
                                     "phone": {
                                         "type": "string"
-                                    },
-                                    "code": {
-                                        "type": "string"
                                     }
                                 },
                                 "type": "object",
                                 "example": {
-                                    "phone": "+977 9843670972",
-                                    "otp": "4233"
+                                    "phone": "+977 9843670972"
                                 }
                             }
                         }
