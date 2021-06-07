@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Api;
 
 
 use App\Http\Controllers\Controller;
+use App\Otp;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Twilio\Jwt\ClientToken;
@@ -28,28 +31,20 @@ class RegisterController extends Controller
     /**
      * @OA\Post(
      ** path="/api/send_sms",
-     *   tags={"OTP"},
+     *   tags={"SMS Verification"},
      *   summary="SMS",
      *   operationId="sms",
      *      @OA\RequestBody(
      *      @OA\MediaType(
      *         mediaType="application/json",
      *         @OA\Schema(
-     *          @OA\Property(
-     *                 property="name",
-     *                 type="string"
      *
-     *             ),
      *             @OA\Property(
      *                 property="phone",
      *                 type="string"
      *
      *             ),
-     *             @OA\Property(
-     *                 property="password",
-     *                 type="string",
-     *                 format="password"
-     *             ),
+     *
      *         )
      *     )
      *   ),
@@ -61,7 +56,9 @@ class RegisterController extends Controller
      *       description="Please check your phone for otp",
      *      @OA\MediaType(
      *           mediaType="application/json",
-     *      )
+     *      ),
+     *
+     *
      *   ),
      *   @OA\Response(
      *      response=401,
@@ -87,14 +84,20 @@ class RegisterController extends Controller
     {
         $code = rand(1000, 9999); //generate random code
         $request['code'] = $code; //add code in $request body
-        $request['approved_at'] = Carbon::now();
-        $this->user->store($request); //call store method of model
+        $request['phone'] = $request->phone;
+        $otp = Otp::where('phone','=',$request->phone);
+        if($otp){
+            $otp->update(['code' => $code]);
+        }else{
+            Otp::create($request->all()); //call store method of model
+        }
+
         return $this->sendSms($request);// send and return its response
     }
     /**
      * @OA\Post(
      ** path="/api/user_register",
-     *   tags={"Register"},
+     *   tags={"Auth"},
      *   summary="Register",
      *   operationId="register",
      *      @OA\RequestBody(
@@ -106,18 +109,26 @@ class RegisterController extends Controller
      *                 type="string"
      *
      *             ),
-     *
-     *             @OA\Property(
-     *                 property="password",
+     *          @OA\Property(
+     *                 property="email",
      *                 type="string",
-     *                 format="password"
+     *                 format="email"
+     *
      *             ),
+     *
      *
      *             @OA\Property(
      *                 property="phone",
      *                 type="string"
      *
      *             ),
+     *              @OA\Property(
+     *                 property="profile_pic",
+     *                 type="string",
+     *                  format="file",
+     *
+     *             ),
+     *              example={"name":"Deepika","email":"deepik@gmail.com","phone": "+977 9812323132", "profile_pic": "2312.jpg"}
      *
      *
      *         )
@@ -131,7 +142,11 @@ class RegisterController extends Controller
      *       description="Successful Registration",
      *      @OA\MediaType(
      *           mediaType="application/json",
-     *      )
+     *      ),
+     *      @OA\Schema(
+     *             example={"name":"Deepika","email":"deepik@gmail.com","password":"123wsda2","password_confirmation":"123wsda2",
+     *             "gender":"Femal","dob":"21/09/2020","phone": "+977 9812323132"}
+     *         )
      *   ),
      *   @OA\Response(
      *      response=401,
@@ -160,27 +175,35 @@ class RegisterController extends Controller
         $validator = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'nullable|string|email|max:255|unique:users',
-            'password' => 'required|min:8|confirmed',
+            'password' => 'nullable|min:8|confirmed',
             'gender' => 'nullable',
             'dob'=> 'nullable',
             'phone' => 'required|unique:users',
             'contact2' => 'nullable',
             'city' => 'nullable',
             'area' => 'nullable',
+            'profile_pic'=>'nullable',
         ]);
+        if($request->hasFile('profile_pic')){
+            $filenameWithExt = $request->file('profile_pic')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('license')->getClientOriginalExtension();
+            $fileNameToStore1 = $filename.'_'.time().".".$extension;
+            $path = $request->file('profile_pic')->storeAs('public/images/profile_pic', $fileNameToStore1);
+        } else {
+            $fileNameToStore1 = 'no-image.jpg';
+        }
+        $validator['profile_pic'] = $fileNameToStore1;
 
-//        if ($validator->fails()) {
-//            return response()->json($validator->errors(), 401);
-//        }
-        $validator['password'] = Hash::make($request->password);
-        $validator['approved_at'] = Carbon::now();
+            $user = User::create($validator);
 
+            if($user){
+                Auth::login($user,true);
+                $accessToken = $user->createToken('authToken')->accessToken;
+            }
 
-        $user =  User::create($validator);
+            return response(['user' => $user, 'access_token' => $accessToken],201);
 
-        $accessToken = $user->createToken('authToken')->accessToken;
-
-        return response(['user' => $user, 'access_token' => $accessToken],201);
     }
     /**
      * @OA\Post(
@@ -213,8 +236,13 @@ class RegisterController extends Controller
      *       description="Verified Successfully",
      *      @OA\MediaType(
      *           mediaType="application/json",
+     *     @OA\Schema(
+     *             example={"phone": "+977 9812323132", "code": "3923"}
+     *         )
      *      )
+     *
      *   ),
+     *
      *   @OA\Response(
      *      response=401,
      *       description="Unauthenticated"
@@ -237,44 +265,41 @@ class RegisterController extends Controller
     public function verifyContact(Request $request)
     {
         $phone = $request->phone;
-        $user = User::where('phone',$phone)
-                ->first();
+        $otp = Otp::where('phone',$phone)->first();
 
-        if ($request->code == $user->code) {
-            $request["code_status"] = 'verified';
-            $user->updateModel($request);
+        if ($request->code == $otp->code) {
+            $otp->update(['code_status' => 'Verified']);
             $msg["message"] = "verified";
-            return $msg;
+            $user = User::where('phone','=',$otp->phone)->first();
+            if($user){
+                Auth::login($user,true);
+                $accessToken = $user->createToken('authToken')->accessToken;
+                return [$msg,['user' => $user, 'access_token' => $accessToken],201];
+            }
+            return [$msg];
         } else {
             $msg["message"] = "not verified";
             return $msg;
         }
     }
 
-
-
     public function sendSms($request)
     {
         $message = "Your Verification Code is-" .$request->code;
+        $phone = $request->phone;
+
 
 
         $client = new Client(config('services.twilio.TWILIO_SID'), config('services.twilio.TWILIO_AUTH_TOKEN'));
         $client->messages->create(
-            "+977 9843670972",
+            $phone,
                     [
                         'from' => "+17082653883",
                         'body' => $message
                     ]
         );
-
-
-
-
-
-
-
-
-
     }
+
+
 
 }

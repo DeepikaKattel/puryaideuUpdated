@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Booking;
 use App\Http\Controllers\Controller;
+use App\Otp;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +15,7 @@ class LoginController extends Controller
     /**
      * @OA\Post(
      *   path="/api/user_login",
-     *   tags={"Login"},
+     *   tags={"Auth"},
      *   operationId="login",
      *   @OA\RequestBody(
      *      @OA\MediaType(
@@ -112,7 +114,7 @@ class LoginController extends Controller
     /**
      * @OA\Get(
      *   path="/api/user_logout",
-     *   tags={"Auth"},
+     *   tags={"User"},
      *   security={{"bearerAuth":{}}},
      *
      *   @OA\Response(
@@ -126,9 +128,76 @@ class LoginController extends Controller
      **/
     public function logout(Request $request) {
         $request->user()->token()->revoke();
+        $otp = Otp::where('phone','=',$request->user()->phone)->first();
+        $otp->update(['code_status' => 'Pending']);
         return response()->json([
             'message' => 'Successfully logged out'
         ]);
+    }
+
+    /**
+     * @OA\Get(
+     *   path="/api/user_detail",
+     *   tags={"User"},
+     *   security={{"bearerAuth":{}}},
+     *
+     *   @OA\Response(
+     *      response=200,
+     *       description="Success",
+     *      @OA\MediaType(
+     *           mediaType="application/json",
+     *      )
+     *   )
+     *)
+     **/
+    public function user(){
+        $user = Auth::user();
+        return response(['user'=>$user],200);
+    }
+    /**
+     * @OA\Post(
+     *   path="/api/user_update/{id}",
+     *   tags={"User"},
+     *   security={{"bearerAuth":{}}},
+     *
+     *   @OA\Response(
+     *      response=200,
+     *       description="Successfully Updated",
+     *      @OA\MediaType(
+     *           mediaType="application/json",
+     *      )
+     *   )
+     *)
+     **/
+
+    public function update(Request $request,$id)
+    {
+        $user=User::find($id);
+        $user->update($request->all());
+        return response(['user'=>$user],200);
+
+    }
+
+    /**
+     * @OA\Get(
+     *   path="/api/history",
+     *   tags={"User"},
+     *   security={{"bearerAuth":{}}},
+     *
+     *   @OA\Response(
+     *      response=200,
+     *       description="Success",
+     *      @OA\MediaType(
+     *           mediaType="application/json",
+     *      )
+     *   )
+     *)
+     **/
+
+    public function history(){
+        $user = Auth::user();
+        $booking = Booking::where('user_id','=',$user->id)->get();
+        return response(['booking'=>$booking],200);
     }
 
 }

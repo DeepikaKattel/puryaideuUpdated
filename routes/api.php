@@ -19,10 +19,21 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('user_register', 'Api\RegisterController@register');
-Route::post('user_login', 'Api\LoginController@login');
+//Route::post('user_login', 'Api\LoginController@login');
 Route::post('send_sms','Api\RegisterController@store');
 Route::post('verify_user','Api\RegisterController@verifyContact');
+
+//User
 Route::get('user_logout', 'Api\LoginController@logout')->middleware('auth:api');
+Route::get('user_detail', 'Api\LoginController@user')->middleware('auth:api');
+Route::get('user_history', 'Api\LoginController@history')->middleware('auth:api');
+Route::put('/user_update/{id}','Api\LoginController@update')->middleware('auth:api');
+
+
+//Booking
+Route::post('/user_booking','Api\BookingController@store')->middleware('auth:api');
+
+
 Route::get('auth/google', 'Api\LoginController@redirectToGoogle');
 Route::get('auth/google/callback', 'Api\LoginController@handleGoogleCallback');
 

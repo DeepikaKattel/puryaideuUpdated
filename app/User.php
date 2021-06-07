@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name','role','email', 'password','gender','dob','phone','contact2','city','area','approved_at','google_id','facebook_id','code','code_status'
+        'name','role','email', 'password','gender','dob','phone','contact2','city','area','approved_at','google_id','facebook_id','profile_pic'
     ];
 
 
@@ -94,16 +94,5 @@ class User extends Authenticatable
 //        );
 //    }
 
-    public function store($request)
-    {
-        $this->fill($request->all());
-        $sms = $this->save();
-        return response()->json($sms, 200);
-    }
 
-    public function updateModel($request)
-    {
-        $this->update($request->all());
-        return $this;
-    }
 }

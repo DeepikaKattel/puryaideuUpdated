@@ -6,10 +6,74 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/user_booking": {
+            "post": {
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Book",
+                "operationId": "book",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "origin": {
+                                        "type": "string"
+                                    },
+                                    "destination": {
+                                        "type": "string"
+                                    },
+                                    "distance": {
+                                        "type": "string"
+                                    },
+                                    "duration": {
+                                        "type": "string"
+                                    },
+                                    "passenger_number": {
+                                        "type": "integer"
+                                    },
+                                    "vehicle_type": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "origin": "Kathmandu",
+                                    "destination": "biratnagar",
+                                    "distance": "10.5km",
+                                    "duration": "2 hours"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Booking",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
         "/api/user_login": {
             "post": {
                 "tags": [
-                    "Login"
+                    "Auth"
                 ],
                 "operationId": "login",
                 "requestBody": {
@@ -42,9 +106,72 @@
         "/api/user_logout": {
             "get": {
                 "tags": [
-                    "Auth"
+                    "User"
                 ],
                 "operationId": "App\\Http\\Controllers\\Api\\LoginController::logout",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user_detail": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "operationId": "App\\Http\\Controllers\\Api\\LoginController::user",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user_update/{id}": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "operationId": "App\\Http\\Controllers\\Api\\LoginController::update",
+                "responses": {
+                    "200": {
+                        "description": "Successfully Updated",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/history": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "operationId": "App\\Http\\Controllers\\Api\\LoginController::history",
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -63,7 +190,7 @@
         "/api/send_sms": {
             "post": {
                 "tags": [
-                    "OTP"
+                    "SMS Verification"
                 ],
                 "summary": "SMS",
                 "operationId": "sms",
@@ -72,15 +199,8 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "name": {
-                                        "type": "string"
-                                    },
                                     "phone": {
                                         "type": "string"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "format": "password"
                                     }
                                 },
                                 "type": "object"
@@ -113,7 +233,7 @@
         "/api/user_register": {
             "post": {
                 "tags": [
-                    "Register"
+                    "Auth"
                 ],
                 "summary": "Register",
                 "operationId": "register",
@@ -125,15 +245,25 @@
                                     "name": {
                                         "type": "string"
                                     },
-                                    "password": {
+                                    "email": {
                                         "type": "string",
-                                        "format": "password"
+                                        "format": "email"
                                     },
                                     "phone": {
                                         "type": "string"
+                                    },
+                                    "profile_pic": {
+                                        "type": "string",
+                                        "format": "file"
                                     }
                                 },
-                                "type": "object"
+                                "type": "object",
+                                "example": {
+                                    "name": "Deepika",
+                                    "email": "deepik@gmail.com",
+                                    "phone": "+977 9812323132",
+                                    "profile_pic": "2312.jpg"
+                                }
                             }
                         }
                     }
@@ -188,7 +318,14 @@
                     "201": {
                         "description": "Verified Successfully",
                         "content": {
-                            "application/json": {}
+                            "application/json": {
+                                "schema": {
+                                    "example": {
+                                        "phone": "+977 9812323132",
+                                        "code": "3923"
+                                    }
+                                }
+                            }
                         }
                     },
                     "401": {
