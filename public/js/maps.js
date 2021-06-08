@@ -63,6 +63,7 @@ function calcRoute(){
 
 //create autocomplete objects for all input
 var options ={
+    country: 'np',
     types: ['(cities)']
 };
 

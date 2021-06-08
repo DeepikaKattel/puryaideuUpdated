@@ -29,6 +29,11 @@ class BookingController extends Controller
         //
     }
 
+    public function near_riders()
+    {
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -40,6 +45,7 @@ class BookingController extends Controller
      * @OA\Post(
      ** path="/api/user_booking",
      *   tags={"Booking"},
+     *   security={{"bearerAuth":{}}},
      *   summary="Book",
      *   operationId="book",
      *      @OA\RequestBody(
@@ -66,14 +72,22 @@ class BookingController extends Controller
      *             ),
      *           @OA\Property(
      *                 property="passenger_number",
-     *                 type="integer"
+     *                 type="number"
      *             ),
      *             @OA\Property(
      *                 property="vehicle_type",
-     *                 type="integer"
+     *                 type="number"
+     *             ),
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string"
+     *             ),
+     *             @OA\Property(
+     *                 property="phone_number",
+     *                 type="string"
      *             ),
      *
-     *              example={"origin":"Kathmandu","destination":"biratnagar","distance": "10.5km", "duration": "2 hours"}
+     *              example={"origin":"Kathmandu","destination":"biratnagar","distance": "10.5km", "duration": "2 hours","passenger_number":"2","vehicle_type":"2","name":"Deepika","phone_number":"98132313"}
      *
      *
      *         )

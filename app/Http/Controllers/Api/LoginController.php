@@ -8,6 +8,7 @@ use App\Otp;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
@@ -155,10 +156,45 @@ class LoginController extends Controller
         return response(['user'=>$user],200);
     }
     /**
-     * @OA\Post(
+     * @OA\Put(
      *   path="/api/user_update/{id}",
      *   tags={"User"},
      *   security={{"bearerAuth":{}}},
+     *     @OA\RequestBody(
+     *      @OA\MediaType(
+     *         mediaType="application/json",
+     *         @OA\Schema(
+     *          @OA\Property(
+     *                 property="name",
+     *                 type="string"
+     *
+     *             ),
+     *          @OA\Property(
+     *                 property="email",
+     *                 type="string",
+     *                 format="email"
+     *
+     *             ),
+     *
+     *
+     *             @OA\Property(
+     *                 property="phone",
+     *                 type="string"
+     *
+     *             ),
+     *              @OA\Property(
+     *                 property="profile_pic",
+     *                 type="string",
+     *                  format="file",
+     *
+     *             ),
+     *              example={"name":"Deepika","email":"deepik@gmail.com","phone": "+977 9812323132", "profile_pic": "2312.jpg"}
+     *
+     *
+     *         )
+     *     )
+     *   ),
+     *
      *
      *   @OA\Response(
      *      response=200,
@@ -173,7 +209,28 @@ class LoginController extends Controller
     public function update(Request $request,$id)
     {
         $user=User::find($id);
-        $user->update($request->all());
+        $user->name = request('name');
+        $user->email = request('email');
+        $user->gender = request('gender');
+        $user->dob = request('dob');
+        $user->phone = request('phone');
+        $user->contact2 = request('contact2');
+        $user->city = request('city');
+        $user->area = request('area');
+        $user->approved_at = now();
+        if($request->hasFile('profile_pic')){
+            $filenameWithExt = $request->file('profile_pic')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('license')->getClientOriginalExtension();
+            $fileNameToStore1 = $filename.'_'.time().".".$extension;
+            $path = $request->file('profile_pic')->storeAs('public/images/profile_pic', $fileNameToStore1);
+        } else {
+            $fileNameToStore1 = 'no-image.jpg';
+        }
+        if($request->hasFile('profile_pic')) {
+            $user->profile_pic = $fileNameToStore1;
+        }
+        $user->save();
         return response(['user'=>$user],200);
 
     }

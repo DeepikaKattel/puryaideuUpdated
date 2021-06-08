@@ -20,8 +20,8 @@ class CreateBookingsTable extends Migration
             $table->string('distance');
             $table->string('duration');
             $table->integer('passenger_number')->default(1);
-            $table->string('name');
-            $table->string('phone_number');
+            $table->string('name')->nullable();
+            $table->string('phone_number')->nullable();
             $table->unsignedBigInteger('vehicle_type');
             $table->foreign('vehicle_type')->references('id')->on('vehicle_types')->onDelete('cascade');
             $table->unsignedBigInteger('user_id');

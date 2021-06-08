@@ -31,10 +31,16 @@
                                         "type": "string"
                                     },
                                     "passenger_number": {
-                                        "type": "integer"
+                                        "type": "number"
                                     },
                                     "vehicle_type": {
-                                        "type": "integer"
+                                        "type": "number"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "phone_number": {
+                                        "type": "string"
                                     }
                                 },
                                 "type": "object",
@@ -42,7 +48,11 @@
                                     "origin": "Kathmandu",
                                     "destination": "biratnagar",
                                     "distance": "10.5km",
-                                    "duration": "2 hours"
+                                    "duration": "2 hours",
+                                    "passenger_number": "2",
+                                    "vehicle_type": "2",
+                                    "name": "Deepika",
+                                    "phone_number": "98132313"
                                 }
                             }
                         }
@@ -67,7 +77,12 @@
                     "403": {
                         "description": "Forbidden"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/user_login": {
@@ -146,11 +161,42 @@
             }
         },
         "/api/user_update/{id}": {
-            "post": {
+            "put": {
                 "tags": [
                     "User"
                 ],
                 "operationId": "App\\Http\\Controllers\\Api\\LoginController::update",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "phone": {
+                                        "type": "string"
+                                    },
+                                    "profile_pic": {
+                                        "type": "string",
+                                        "format": "file"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "Deepika",
+                                    "email": "deepik@gmail.com",
+                                    "phone": "+977 9812323132",
+                                    "profile_pic": "2312.jpg"
+                                }
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "Successfully Updated",
