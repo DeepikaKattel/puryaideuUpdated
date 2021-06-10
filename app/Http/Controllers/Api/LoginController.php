@@ -140,7 +140,6 @@ class LoginController extends Controller
      * @OA\Get(
      *   path="/api/user_detail",
      *   tags={"User"},
-     *   security={{"bearerAuth":{}}},
      *
      *   @OA\Response(
      *      response=200,
@@ -153,6 +152,7 @@ class LoginController extends Controller
      **/
     public function user(){
         $user = Auth::user();
+        $user = User::where('id','=',$user->id)->get();
         return response(['user'=>$user],200);
     }
     /**
@@ -221,7 +221,7 @@ class LoginController extends Controller
         if($request->hasFile('profile_pic')){
             $filenameWithExt = $request->file('profile_pic')->getClientOriginalName();
             $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            $extension = $request->file('license')->getClientOriginalExtension();
+            $extension = $request->file('profile_pic')->getClientOriginalExtension();
             $fileNameToStore1 = $filename.'_'.time().".".$extension;
             $path = $request->file('profile_pic')->storeAs('public/images/profile_pic', $fileNameToStore1);
         } else {

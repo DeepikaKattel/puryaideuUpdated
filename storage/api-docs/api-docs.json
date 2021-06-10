@@ -6,6 +6,117 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/available_riders": {
+            "get": {
+                "tags": [
+                    "Riders"
+                ],
+                "operationId": "App\\Http\\Controllers\\Api\\AvailableRidersController::available_riders",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/api/location_riders": {
+            "post": {
+                "tags": [
+                    "Riders"
+                ],
+                "summary": "Location",
+                "operationId": "location",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "rider_id": {
+                                        "type": "string"
+                                    },
+                                    "location": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Riders location stored",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/api/rider_register": {
+            "post": {
+                "tags": [
+                    "Riders"
+                ],
+                "summary": "Register Rider",
+                "operationId": "register rider",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "phone": {
+                                        "type": "string"
+                                    },
+                                    "profile_pic": {
+                                        "type": "string",
+                                        "format": "file"
+                                    },
+                                    "licence": {
+                                        "type": "string",
+                                        "format": "file"
+                                    },
+                                    "licence_number": {
+                                        "type": "string"
+                                    },
+                                    "experience": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "Deepika",
+                                    "email": "deepik@gmail.com",
+                                    "phone": "+977 9812323132",
+                                    "profile_pic": "2312.jpg",
+                                    "license": "license.png",
+                                    "license_number": "2323132",
+                                    "experience": "2"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Registration",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
         "/api/user_booking": {
             "post": {
                 "tags": [
@@ -85,6 +196,28 @@
                 ]
             }
         },
+        "/api/statusB{id}}": {
+            "get": {
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Cancel Booking By User",
+                "operationId": "App\\Http\\Controllers\\Api\\BookingController::status",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/user_login": {
             "post": {
                 "tags": [
@@ -152,12 +285,7 @@
                             "application/json": {}
                         }
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             }
         },
         "/api/user_update/{id}": {

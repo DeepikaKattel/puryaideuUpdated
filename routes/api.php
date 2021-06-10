@@ -27,12 +27,16 @@ Route::post('verify_user','Api\RegisterController@verifyContact');
 Route::get('user_logout', 'Api\LoginController@logout')->middleware('auth:api');
 Route::get('user_detail', 'Api\LoginController@user')->middleware('auth:api');
 Route::get('user_history', 'Api\LoginController@history')->middleware('auth:api');
-Route::put('/user_update/{id}','Api\LoginController@update')->middleware('auth:api');
+Route::put('user_update/{id}','Api\LoginController@update')->middleware('auth:api');
 
 
 //Booking
-Route::post('/user_booking','Api\BookingController@store')->middleware('auth:api');
+Route::post('user_booking','Api\BookingController@store')->middleware('auth:api');
+Route::get('statusB{id}', 'Api\BookingController@status')->name('statusB');
 
+Route::post('location_riders','Api\AvailableRidersController@store');
+Route::get('available_riders','Api\AvailableRidersController@available_riders');
+Route::post('rider_register', 'Api\AvailableRidersController@rider');
 
 Route::get('auth/google', 'Api\LoginController@redirectToGoogle');
 Route::get('auth/google/callback', 'Api\LoginController@handleGoogleCallback');

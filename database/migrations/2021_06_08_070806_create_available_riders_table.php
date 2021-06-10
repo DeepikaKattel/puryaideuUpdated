@@ -15,6 +15,11 @@ class CreateAvailableRidersTable extends Migration
     {
         Schema::create('available_riders', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('rider_id');
+            $table->foreign('rider_id')->references('id')->on('riders');
+            $table->string('location');
+            $table->boolean('status')->default(0);
+
             $table->timestamps();
         });
     }

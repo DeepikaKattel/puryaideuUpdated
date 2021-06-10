@@ -194,4 +194,33 @@ class BookingController extends Controller
     {
         //
     }
+    /**
+     * @OA\Get(
+     *   path="/api/statusB{id}}",
+     *   tags={"Booking"},
+     *   security={{"bearerAuth":{}}},
+     *   summary="Cancel Booking By User",
+     *
+     *   @OA\Response(
+     *      response=200,
+     *       description="Success",
+     *      @OA\MediaType(
+     *           mediaType="application/json",
+     *      )
+     *   )
+     *)
+     **/
+    public function status(Request $request, $id){
+        $data=Booking::find($id);
+
+        if($data->status==0){
+            $data->status=1;
+        }else{
+            $data->status=0;
+        }
+
+        $data->save();
+        return response(['message', 'The booking status'.' '.$data->id.' '.'has been changed successfully']);
+
+    }
 }

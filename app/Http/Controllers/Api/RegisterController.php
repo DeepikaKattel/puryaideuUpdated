@@ -26,8 +26,6 @@ class RegisterController extends Controller
     {
         $this->user = new User();
     }
-
-
     /**
      * @OA\Post(
      ** path="/api/send_sms",
@@ -82,17 +80,19 @@ class RegisterController extends Controller
 
     public function store(Request $request)
     {
-        $code = rand(1000, 9999); //generate random code
+        $code = rand(10000, 99999); //generate random code
         $request['code'] = $code; //add code in $request body
         $request['phone'] = $request->phone;
-        $otp = Otp::where('phone','=',$request->phone);
+        $otp = Otp::where('phone','=',$request->phone)->first();
         if($otp){
             $otp->update(['code' => $code]);
+            return $this->sparrowSms($request);// send and return its response
         }else{
             Otp::create($request->all()); //call store method of model
+            return $this->sparrowSms($request);// send and return its response
         }
-//        return $this->sendSms($request);
-        return $this->sparrowSms($request);// send and return its response
+//        return $this->sendSms($request);27.34.68.77
+
     }
     /**
      * @OA\Post(
@@ -274,7 +274,7 @@ class RegisterController extends Controller
             if($user){
                 Auth::login($user,true);
                 $accessToken = $user->createToken('authToken')->accessToken;
-                return [$msg,['user' => $user, 'access_token' => $accessToken],201];
+                return response(['msg'=>$msg,'access_token' => $accessToken,'user' => $user,],201);
             }
             return [$msg];
         } else {
@@ -283,7 +283,7 @@ class RegisterController extends Controller
         }
     }
 
-    //twillio
+
 
     public function sendSms($request)
     {
