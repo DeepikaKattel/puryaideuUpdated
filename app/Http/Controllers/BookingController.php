@@ -142,11 +142,23 @@ class BookingController extends Controller
         Cache::forget('booking');
         $data=Booking::find($id);
 
-        if($data->status==0){
-            $data->status=1;
+        if($data->status=='Waiting'){
+            $data->status='Received Rider';
         }else{
-            $data->status=0;
+            $data->status='Cancel';
         }
+
+        $data->save();
+        return redirect()->back()->with('message', 'The booking status'.' '.$data->id.' '.'has been changed successfully');
+
+    }
+
+    public function cancel_ride(Request $request, $id){
+        Cache::forget('booking');
+
+        $data=Booking::find($id);
+
+        $data->status='Cancel';
 
         $data->save();
         return redirect()->back()->with('message', 'The booking status'.' '.$data->id.' '.'has been changed successfully');
@@ -156,13 +168,14 @@ class BookingController extends Controller
     public function statusRider(Request $request, $id){
         Cache::forget('booking');
         $data=Booking::find($id);
-
-        if($data->ride_status==0){
-            $data->ride_status = 1;
-        }elseif($data->ride_status==1){
-            $data->ride_status = 2;
+        if($data->ride_status == 'Waiting'){
+            $data->ride_status = 'Accepted';
+        }elseif($data->ride_status == 'Accepted'){
+            $data->ride_status = 'I Reached';
+        }elseif($data->ride_status == 'I Reached'){
+            $data->ride_status = 'Trip Complete';
         }else{
-            $data->ride_status = 0;
+            $data->ride_status = 'Cancel';
         }
 
         $data->save();

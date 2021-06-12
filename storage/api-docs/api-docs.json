@@ -65,7 +65,7 @@
                 "operationId": "register rider",
                 "requestBody": {
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "properties": {
                                     "name": {
@@ -83,8 +83,7 @@
                                         "format": "file"
                                     },
                                     "licence": {
-                                        "type": "string",
-                                        "format": "file"
+                                        "type": "file"
                                     },
                                     "licence_number": {
                                         "type": "string"
@@ -196,13 +195,78 @@
                 ]
             }
         },
-        "/api/statusB{id}}": {
+        "/api/statusB{id}": {
             "get": {
                 "tags": [
                     "Booking"
                 ],
-                "summary": "Cancel Booking By User",
+                "summary": "User Booking Status",
                 "operationId": "App\\Http\\Controllers\\Api\\BookingController::status",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/statusCancel{id}": {
+            "get": {
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Cancel booking",
+                "operationId": "App\\Http\\Controllers\\Api\\BookingController::cancel_ride",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/statusOfRider{id}": {
+            "get": {
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Rider Booking Status",
+                "operationId": "App\\Http\\Controllers\\Api\\BookingController::statusRider",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/estimated_price": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "operationId": "App\\Http\\Controllers\\Api\\BookingController::estimated_price",
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -281,6 +345,41 @@
                 "responses": {
                     "200": {
                         "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/specific_user": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "operationId": "App\\Http\\Controllers\\Api\\LoginController::user_id",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User details displayed successfully",
                         "content": {
                             "application/json": {}
                         }
@@ -413,7 +512,7 @@
                 "operationId": "register",
                 "requestBody": {
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "properties": {
                                     "name": {
@@ -427,8 +526,7 @@
                                         "type": "string"
                                     },
                                     "profile_pic": {
-                                        "type": "string",
-                                        "format": "file"
+                                        "type": "file"
                                     }
                                 },
                                 "type": "object",

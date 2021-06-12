@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Booking;
 use App\Http\Controllers\Controller;
+use App\VehicleType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class BookingController extends Controller
 {
@@ -196,10 +198,10 @@ class BookingController extends Controller
     }
     /**
      * @OA\Get(
-     *   path="/api/statusB{id}}",
+     *   path="/api/statusB{id}",
      *   tags={"Booking"},
      *   security={{"bearerAuth":{}}},
-     *   summary="Cancel Booking By User",
+     *   summary="User Booking Status",
      *
      *   @OA\Response(
      *      response=200,
@@ -211,16 +213,104 @@ class BookingController extends Controller
      *)
      **/
     public function status(Request $request, $id){
+        Cache::forget('booking');
         $data=Booking::find($id);
 
-        if($data->status==0){
-            $data->status=1;
+        if($data->status=='Waiting'){
+            $data->status='Received Rider';
         }else{
-            $data->status=0;
+            $data->status='Cancel';
         }
 
         $data->save();
         return response(['message', 'The booking status'.' '.$data->id.' '.'has been changed successfully']);
 
+    }
+
+    /**
+     * @OA\Get(
+     *   path="/api/statusCancel{id}",
+     *   tags={"Booking"},
+     *   security={{"bearerAuth":{}}},
+     *   summary="Cancel booking",
+     *
+     *   @OA\Response(
+     *      response=200,
+     *       description="Success",
+     *      @OA\MediaType(
+     *           mediaType="application/json",
+     *      )
+     *   )
+     *)
+     **/
+    public function cancel_ride(Request $request, $id){
+        Cache::forget('booking');
+
+        $data=Booking::find($id);
+
+        $data->status='Cancel';
+
+        $data->save();
+        return response(['message', 'The booking status'.' '.$data->id.' '.'has been changed successfully']);
+
+    }
+    /**
+     * @OA\Get(
+     *   path="/api/statusOfRider{id}",
+     *   tags={"Booking"},
+     *   security={{"bearerAuth":{}}},
+     *   summary="Rider Booking Status",
+     *
+     *   @OA\Response(
+     *      response=200,
+     *       description="Success",
+     *      @OA\MediaType(
+     *           mediaType="application/json",
+     *      )
+     *   )
+     *)
+     **/
+    public function statusRider(Request $request, $id){
+        Cache::forget('booking');
+        $data=Booking::find($id);
+        if($data->ride_status == 'Waiting'){
+            $data->ride_status = 'Accepted';
+        }elseif($data->ride_status == 'Accepted'){
+            $data->ride_status = 'I Reached';
+        }elseif($data->ride_status == 'I Reached'){
+            $data->ride_status = 'Trip Complete';
+        }else{
+            $data->ride_status = 'Cancel';
+        }
+
+        $data->save();
+        return response(['message', 'The booking status'.' '.$data->id.' '.'has been changed successfully']);
+
+    }
+
+    /**
+     * @OA\Get(
+     *   path="/api/estimated_price",
+     *   tags={"User"},
+     *   security={{"bearerAuth":{}}},
+     *
+     *   @OA\Response(
+     *      response=200,
+     *       description="Success",
+     *      @OA\MediaType(
+     *           mediaType="application/json",
+     *      )
+     *   )
+     *)
+     **/
+
+    public function estimated_price(){
+        $user = Auth::user();
+        $booking = Booking::where('user_id','=',$user->id)->select('distance','vehicle_type')->first();
+        $vehicle = VehicleType::where('id','=',$booking->vehicle_type)->select('price_km')->value('price_km');
+        $distance = floatval($booking->distance);
+        $estimated_price = $distance * $vehicle;
+
+        return response($estimated_price,200);
     }
 }

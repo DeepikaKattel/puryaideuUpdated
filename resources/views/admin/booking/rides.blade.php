@@ -62,13 +62,15 @@
                                                 <td>{{ $v->destination }}</td>
                                                 <td>{{ $v->passenger_number }}</td>
                                                 <td>{{ $v->vehicleType->name }}</td>
-                                                <td id="none">@if($v->status == 1)<span style="color:red">Cancelled by User</span>@elseif($v->ride_status==0) <span style="color:#24c5ff;font-weight: bold">Pending</span> @elseif($v->ride_status==1) <span style="color:green;font-weight: bold">Complete</span>@else<span style="color:red;font-weight: bold">Cancelled</span> @endif</td>
+                                                <td id="none">@if($v->status == 'Received Rider')<span style="color:green">Trip is Running</span>@elseif($v->status=='Cancel') <span style="color:red;font-weight: bold">Cancelled By User</span> @elseif($v->ride_status=='Waiting') <span style="color:#24c5ff;font-weight: bold">Waiting</span> @elseif($v->ride_status=='Accepted') <span style="color:green;font-weight: bold">Accepted</span>@elseif($v->ride_status=='I Reached') <span style="color:green;font-weight: bold">Reached</span>@elseif($v->ride_status=='Trip Complete') <span style="color:green;font-weight: bold">Trip Completed</span>@else<span style="color:red;font-weight: bold">Cancelled</span> @endif</td>
                                                 <td id="none">
-                                                    @if($v->ride_status != 2 && $v->status != 1)
+                                                    @if($v->ride_status = 'Waiting')
                                                         <button type="button" class="btn-xs btn-primary btn-warning" data-toggle="modal" data-target="#riderModal" >
                                                             Accept
                                                         </button>
-                                                    @else
+                                                    @elseif($v->ride_status = 'Accepted'){
+                                                        <button class="btn-sm btn-primary btn-success"> Received Rider </button>
+                                                     }
                                                         <span class="btn-secondary">Disabled</span>
                                                     @endif
 

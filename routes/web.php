@@ -69,6 +69,8 @@ Route::middleware(['admin'])->group(function () {
     Route::resource('/booking', 'BookingController');
     Route::get('statusB{id}', 'BookingController@status')->name('statusB');
 
+    Route::get('statusCancel{id}', 'BookingController@cancel_rider')->name('statusCancel');
+
     Route::get('/rides','BookingController@rides')->name('rides');
     Route::get('statusOfRider{id}', 'BookingController@statusRider')->name('statusOfRider');
     Route::post('riderBook/{id}','BookingController@update')->name('riderBook.update');

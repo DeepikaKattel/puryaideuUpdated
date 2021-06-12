@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Booking;
 use App\Http\Controllers\Controller;
 use App\Otp;
+use App\Price;
 use App\User;
+use App\VehicleType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -140,6 +142,7 @@ class LoginController extends Controller
      * @OA\Get(
      *   path="/api/user_detail",
      *   tags={"User"},
+     *   security={{"bearerAuth":{}}},
      *
      *   @OA\Response(
      *      response=200,
@@ -153,7 +156,46 @@ class LoginController extends Controller
     public function user(){
         $user = Auth::user();
         $user = User::where('id','=',$user->id)->get();
-        return response(['user'=>$user],200);
+        return response($user,200);
+    }
+    /**
+     * @OA\Post(
+     ** path="/api/specific_user",
+     *   tags={"User"},
+
+     *      @OA\RequestBody(
+     *      @OA\MediaType(
+     *         mediaType="application/json",
+     *         @OA\Schema(
+     *
+     *             @OA\Property(
+     *                 property="id",
+     *                 type="string"
+     *
+     *             ),
+     *
+     *         )
+     *     )
+     *   ),
+
+
+     *   @OA\Response(
+     *      response=201,
+     *       description="User details displayed successfully",
+     *      @OA\MediaType(
+     *           mediaType="application/json",
+     *      )
+     *
+     *   ),
+     *
+     *
+     *
+     *)
+     **/
+    public function user_id(Request $request){
+        $user = $request->id;
+        $user = User::where('id','=',$user)->select('id','name','phone','email')->get();
+        return response($user,200);
     }
     /**
      * @OA\Put(
@@ -256,5 +298,6 @@ class LoginController extends Controller
         $booking = Booking::where('user_id','=',$user->id)->get();
         return response(['booking'=>$booking],200);
     }
+
 
 }

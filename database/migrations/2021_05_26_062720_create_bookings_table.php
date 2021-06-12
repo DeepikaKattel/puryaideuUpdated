@@ -26,7 +26,7 @@ class CreateBookingsTable extends Migration
             $table->foreign('vehicle_type')->references('id')->on('vehicle_types')->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->boolean('status')->default(0);
+            $table->string('status')->default('Waiting');
 ;           $table->timestamps();
         });
     }

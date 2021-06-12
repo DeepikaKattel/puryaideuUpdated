@@ -102,7 +102,7 @@ class RegisterController extends Controller
      *   operationId="register",
      *      @OA\RequestBody(
      *      @OA\MediaType(
-     *         mediaType="application/json",
+     *         mediaType="multipart/form-data",
      *         @OA\Schema(
      *          @OA\Property(
      *                 property="name",
@@ -124,8 +124,8 @@ class RegisterController extends Controller
      *             ),
      *              @OA\Property(
      *                 property="profile_pic",
-     *                 type="string",
-     *                  format="file",
+     *                 type="file"
+     *
      *
      *             ),
      *              example={"name":"Deepika","email":"deepik@gmail.com","phone": "+977 9812323132", "profile_pic": "2312.jpg"}
@@ -172,6 +172,17 @@ class RegisterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function register(Request $request){
+        if($request->hasFile('profile_pic')){
+            $filenameWithExt = $request->file('profile_pic')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('profile_pic')->getClientOriginalExtension();
+            $fileNameToStore1 = $filename.'_'.time().".".$extension;
+            $path = $request->file('profile_pic')->storeAs('public/images/profile', $fileNameToStore1);
+
+        } else {
+            $fileNameToStore1 = 'no-image.jpg';
+        }
+
         $validator = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'nullable|string|email|max:255|unique:users',
@@ -182,18 +193,12 @@ class RegisterController extends Controller
             'contact2' => 'nullable',
             'city' => 'nullable',
             'area' => 'nullable',
-            'profile_pic'=>'nullable',
+            'profile_pic'=>'required',
+            'approved_at'=>'nullable'
         ]);
-        if($request->hasFile('profile_pic')){
-            $filenameWithExt = $request->file('profile_pic')->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            $extension = $request->file('license')->getClientOriginalExtension();
-            $fileNameToStore1 = $filename.'_'.time().".".$extension;
-            $path = $request->file('profile_pic')->storeAs('public/images/profile_pic', $fileNameToStore1);
-        } else {
-            $fileNameToStore1 = 'no-image.jpg';
-        }
+
         $validator['profile_pic'] = $fileNameToStore1;
+        $validator['approved_at'] = now();
 
             $user = User::create($validator);
 
@@ -274,9 +279,9 @@ class RegisterController extends Controller
             if($user){
                 Auth::login($user,true);
                 $accessToken = $user->createToken('authToken')->accessToken;
-                return response(['msg'=>$msg,'access_token' => $accessToken,'user' => $user,],201);
+                return response(['message'=>'verified','access_token' => $accessToken,'user' => $user],201);
             }
-            return [$msg];
+            return $msg;
         } else {
             $msg["message"] = "not verified";
             return $msg;

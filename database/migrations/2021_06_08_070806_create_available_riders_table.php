@@ -18,7 +18,7 @@ class CreateAvailableRidersTable extends Migration
             $table->unsignedBigInteger('rider_id');
             $table->foreign('rider_id')->references('id')->on('riders');
             $table->string('location');
-            $table->boolean('status')->default(0);
+            $table->string('status')->default(0);
 
             $table->timestamps();
         });

@@ -89,7 +89,7 @@ class AvailableRidersController extends Controller
       *   operationId="register rider",
       *      @OA\RequestBody(
       *      @OA\MediaType(
-      *         mediaType="application/json",
+      *         mediaType="multipart/form-data",
       *         @OA\Schema(
       *          @OA\Property(
       *                 property="name",
@@ -117,8 +117,8 @@ class AvailableRidersController extends Controller
       *             ),
       *             @OA\Property(
       *                 property="licence",
-      *                 type="string",
-      *                  format="file",
+      *                 type="file"
+      *
       *
       *             ),
       *             @OA\Property(
