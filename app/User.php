@@ -73,7 +73,10 @@ class User extends Authenticatable
     }
 
     public function riders(){
-        return $this->hasMany(Rider::class,'user_id','id');
+        return $this->hasMany(Rider::class);
+    }
+    public function booking(){
+        return $this->hasMany(Booking::class);
     }
 
 

@@ -15,7 +15,7 @@ class AddRiderIdToBookingsTable extends Migration
     {
         Schema::table('booking', function (Blueprint $table) {
             $table->unsignedBigInteger('rider_id')->nullable();
-            $table->foreign('rider_id')->references('id')->on('riders')->onDelete('cascade');
+            $table->foreign('rider_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('ride_status')->default('Waiting');
         });
     }

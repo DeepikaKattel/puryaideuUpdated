@@ -62,20 +62,20 @@
                                                 <td>{{ $v->destination }}</td>
                                                 <td>{{ $v->passenger_number }}</td>
                                                 <td>{{ $v->vehicleType->name }}</td>
-                                                <td id="none">@if($v->status == 'Received Rider')<span style="color:green">Trip is Running</span>@elseif($v->status=='Cancel') <span style="color:red;font-weight: bold">Cancelled By User</span> @elseif($v->ride_status=='Waiting') <span style="color:#24c5ff;font-weight: bold">Waiting</span> @elseif($v->ride_status=='Accepted') <span style="color:green;font-weight: bold">Accepted</span>@elseif($v->ride_status=='I Reached') <span style="color:green;font-weight: bold">Reached</span>@elseif($v->ride_status=='Trip Complete') <span style="color:green;font-weight: bold">Trip Completed</span>@else<span style="color:red;font-weight: bold">Cancelled</span> @endif</td>
+                                                <td id="none">@if($v->status == 'Received Rider' && $v->ride_status == 'Trip Complete')<span style="color:green">Trip Completed</span>@elseif($v->status == 'Received Rider')<span style="color:green">Trip is Running</span>@elseif($v->status=='Cancel') <span style="color:red;font-weight: bold">Cancelled By User</span> @elseif($v->ride_status=='Waiting') <span style="color:#24c5ff;font-weight: bold">Waiting</span>@elseif($v->ride_status=='Accepted') <span style="color:green;font-weight: bold">Accepted</span>@elseif($v->ride_status=='I Reached') <span style="color:green;font-weight: bold">Reached</span>@elseif($v->ride_status=='Trip Complete') <span style="color:green;font-weight: bold">Trip Completed</span>@else<span style="color:red;font-weight: bold">Cancelled</span> @endif</td>
                                                 <td id="none">
-                                                    @if($v->ride_status = 'Waiting')
+                                                    @if($v->status == 'Waiting')
                                                         <button type="button" class="btn-xs btn-primary btn-warning" data-toggle="modal" data-target="#riderModal" >
                                                             Accept
                                                         </button>
-                                                    @elseif($v->ride_status = 'Accepted'){
-                                                        <button class="btn-sm btn-primary btn-success"> Received Rider </button>
-                                                     }
+                                                    @elseif($v->ride_status != 'Trip Complete' || $v->status != 'Received Rider')
+                                                        <a href="{{route('status_cancel_rider', ['id'=>$v->id])}}" style="font-weight: bold"><button class="btn-xs btn-primary btn-danger"> Cancel </button></a>
+                                                    @else
                                                         <span class="btn-secondary">Disabled</span>
                                                     @endif
 
                                                     @if($v->rider_id)
-                                                        <a href="{{route('statusOfRider', ['id'=>$v->id])}}" style="font-weight: bold">@if($v->ride_status==1)<button class="btn-xs btn-primary btn-danger"> Cancel </button>@elseif($v->ride_status==0)<button class="btn-xs btn-primary btn-success"> Complete </button>@else<button style="display:none" class="btn-xs btn-primary btn-success"> Complete </button>@endif</a>
+                                                        <a href="{{route('statusOfRider', ['id'=>$v->id])}}" style="font-weight: bold">@if($v->ride_status=='Accepted')<button class="btn-xs btn-primary btn-info"> I Reached</button>@elseif($v->ride_status=='I Reached')<button class="btn-xs btn-primary btn-success"> Complete </button>@endif</a>
                                                     @endif
                                                     <div class="modal fade" id="riderModal" tabindex="-1" role="dialog" aria-labelledby="riderModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog" role="document">
@@ -108,6 +108,7 @@
                                                                             </select>
                                                                             <span class="select-arrow"></span>
                                                                         </div>
+
 {{--                                                                        <div class="form-group">--}}
 {{--                                                                            <input type="vehicle" name="license" id="license" style="display: none"/>--}}
 {{--                                                                            <label for="license" class="m-3">Click to upload License</label>--}}

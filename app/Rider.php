@@ -15,4 +15,5 @@ class Rider extends Model
     public function vehicle(){
         return $this->hasMany(Vehicle::class);
     }
+
 }

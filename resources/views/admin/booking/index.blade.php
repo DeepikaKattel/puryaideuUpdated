@@ -62,10 +62,10 @@
                                                 <td>{{ $v->destination }}</td>
                                                 <td>{{ $v->passenger_number }}</td>
                                                 <td>{{ $v->vehicleType->name }}</td>
-                                                <td id="none">@if($v->ride_status == 'Accepted')<span style="color:green">Rider On the Way</span>@elseif($v->ride_status=='I Reached')<span style="color:red">Rider Reached</span>@elseif($v->ride_status=='Trip Complete')<span style="color:red">Trip Completed</span>@elseif($v->status=='Waiting') <span style="color:#5d561b;font-weight: bold">Waiting</span>@elseif($v->status=='Received Rider') <span style="color:green;font-weight: bold">Trip is Running</span> @else <span style="color:red;font-weight: bold">Canceled</span> @endif</td>
+                                                <td id="none">@if($v->ride_status == 'Accepted')<span style="color:green">Rider On the Way</span>@elseif($v->ride_status=='I Reached')<span style="color:red">Rider Reached</span>@elseif($v->ride_status=='Trip Complete')<span style="color:Green">Trip Completed</span>@elseif($v->status=='Waiting') <span style="color:#5d561b;font-weight: bold">Waiting</span>@elseif($v->status=='Received Rider') <span style="color:green;font-weight: bold">Trip is Running</span> @else <span style="color:red;font-weight: bold">Canceled</span> @endif</td>
                                                 <td id="none">
-                                                    @if($v->ride_status == 'Waiting')
-                                                        <a href="{{route('statusB', ['id'=>$v->id])}}" style="font-weight: bold">@if($v->status=='Waiting')<button class="btn-sm btn-primary btn-success"> Received Rider </button></a><a href="{{route('statusCancel', ['id'=>$v->id])}}" style="font-weight: bold"><button class="btn-sm btn-primary btn-danger"> Cancel </button></a>@endif
+                                                    @if($v->status != 'Received Rider')
+                                                        <a href="{{route('statusB', ['id'=>$v->id])}}" style="font-weight: bold">@if($v->status=='Waiting')<button class="btn-xs btn-primary btn-success"> Received Rider </button></a><a href="{{route('statusCancel', ['id'=>$v->id])}}" style="font-weight: bold"><button class="btn-xs btn-primary btn-danger"> Cancel </button></a>@endif
                                                     @else
                                                         <span class="btn-secondary">Disabled</span>
                                                     @endif

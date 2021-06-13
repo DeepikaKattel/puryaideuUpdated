@@ -21,6 +21,7 @@ class BookingController extends Controller
      */
     public function index()
     {
+        Cache::forget('booking');
         $booking = Cache::remember('booking', 3, function() {
             return Booking::with('vehicleType','user')->get();
         });
@@ -28,10 +29,11 @@ class BookingController extends Controller
     }
     public function rides()
     {
+        Cache::forget('booking');
         $booking = Cache::remember('booking', 3, function() {
             return Booking::with('vehicleType','user')->get();
         });
-        $users = User::where('role','2')->get();
+        $users = User::with('riders')->where('role','2')->get();
         $vehicles = Vehicle::with('vehicleType')->get();
         return view('admin.booking.rides', compact('booking','users','vehicles'));
     }
@@ -116,15 +118,18 @@ class BookingController extends Controller
     public function update(Request $request, $id)
     {
         $booking = Booking::find($id);
-        if(Auth::user()->isRider()) {
-            $booking->rider_id = Auth::user()->id;
+        $user = User::with('riders')->where('id','=',Auth::user())->first();
+        if($user) {
+            $booking->rider_id = $user->id;
         }else{
             $booking->rider_id = request('rider_id');
         }
         $booking->vehicle_id = request('vehicle_id');
+        $booking->ride_status = 'Accepted';
         $booking->save();
-
-        return redirect()->route('rides')->with('status','Rider has accepted the booking.');
+        if ($booking) {
+            return redirect()->route('rides')->with('status', 'Rider has accepted the booking.');
+        }
     }
 
     /**
@@ -159,6 +164,17 @@ class BookingController extends Controller
         $data=Booking::find($id);
 
         $data->status='Cancel';
+
+        $data->save();
+        return redirect()->back()->with('message', 'The booking status'.' '.$data->id.' '.'has been changed successfully');
+
+    }
+    public function cancel_ride_rider(Request $request, $id){
+        Cache::forget('booking');
+
+        $data=Booking::find($id);
+
+        $data->ride_status='Cancel';
 
         $data->save();
         return redirect()->back()->with('message', 'The booking status'.' '.$data->id.' '.'has been changed successfully');
