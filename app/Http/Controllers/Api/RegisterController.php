@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
@@ -138,7 +139,7 @@ class RegisterController extends Controller
 
 
      *   @OA\Response(
-     *      response=201,
+     *      response=200,
      *       description="Successful Registration",
      *      @OA\MediaType(
      *           mediaType="application/json",
@@ -183,7 +184,7 @@ class RegisterController extends Controller
             $fileNameToStore1 = 'no-image.jpg';
         }
 
-        $validator = $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'nullable|string|email|max:255|unique:users',
             'password' => 'nullable|min:8|confirmed',
@@ -196,19 +197,33 @@ class RegisterController extends Controller
             'profile_pic'=>'required',
             'approved_at'=>'nullable'
         ]);
+        if ($validator->fails())
+        {
+            return Response::make([
+                'message'   => 'Validation Failed',
+                'errors'        => $validator->errors()
+            ],200);
+        }
+        $user = new User([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'gender' => $request['gender'],
+            'dob' => $request['dob'],
+            'phone' => $request['phone'],
+            'contact2' => $request['contact2'],
+            'city' => $request['city'],
+            'area' => $request['area'],
+            'profile_pic' => $fileNameToStore1,
+            'approved_at'=> now()
+        ]);
+        $user->save();
 
-        $validator['profile_pic'] = $fileNameToStore1;
-        $validator['approved_at'] = now();
-
-            $user = User::create($validator);
-
-            if($user){
-                Auth::login($user,true);
-                $accessToken = $user->createToken('authToken')->accessToken;
-            }
-
-            return response(['user' => $user, 'access_token' => $accessToken],201);
-
+        if($user){
+            Auth::login($user,true);
+            $accessToken = $user->createToken('authToken')->accessToken;
+        }
+        return response(['message'=>'Account Created','user' => $user, 'access_token' => $accessToken],200);
     }
     /**
      * @OA\Post(

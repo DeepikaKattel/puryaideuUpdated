@@ -14,7 +14,8 @@ class ReviewsController extends Controller
      */
     public function index()
     {
-        //
+        $reviews = Reviews::get();
+        return view('admin.reviews.index', compact('reviews'));
     }
 
     /**
@@ -35,7 +36,21 @@ class ReviewsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $review = new Reviews();
+        $review->ride_id = request('ride_id');
+        $review->rider_id = request('rider_id');
+        $review->user_id = request('user_id');
+        $review->rate = request('rate');
+        $review->rate_date = now();
+        $review->comment = request('comment');
+
+        $review->save();
+        $reviews =  $review->save();
+        if ($reviews) {
+            return redirect('/reviews')->with("status", "The record has been stored");
+        } else {
+            return redirect('/reviews')->with("error", "There is an error");
+        }
     }
 
     /**

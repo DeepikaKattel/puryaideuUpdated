@@ -78,6 +78,8 @@ Route::middleware(['admin'])->group(function () {
 
     Route::get('/chart','HomeController@chart')->name('chart');
 
+    Route::resource('/reviews','ReviewsController');
+
 
 });
 Route::get('/approval', 'HomeController@approval')->name('approval');
