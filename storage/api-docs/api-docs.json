@@ -395,22 +395,14 @@
                 "operationId": "App\\Http\\Controllers\\Api\\LoginController::update",
                 "requestBody": {
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "properties": {
                                     "name": {
                                         "type": "string"
                                     },
-                                    "email": {
-                                        "type": "string",
-                                        "format": "email"
-                                    },
-                                    "phone": {
-                                        "type": "string"
-                                    },
                                     "profile_pic": {
-                                        "type": "string",
-                                        "format": "file"
+                                        "type": "file"
                                     }
                                 },
                                 "type": "object",
@@ -541,7 +533,7 @@
                     }
                 },
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "Successful Registration",
                         "content": {
                             "application/json": {}

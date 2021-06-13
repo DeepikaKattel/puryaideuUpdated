@@ -204,30 +204,17 @@ class LoginController extends Controller
      *   security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *      @OA\MediaType(
-     *         mediaType="application/json",
+     *         mediaType="multipart/form-data",
      *         @OA\Schema(
      *          @OA\Property(
      *                 property="name",
      *                 type="string"
      *
      *             ),
-     *          @OA\Property(
-     *                 property="email",
-     *                 type="string",
-     *                 format="email"
      *
-     *             ),
-     *
-     *
-     *             @OA\Property(
-     *                 property="phone",
-     *                 type="string"
-     *
-     *             ),
      *              @OA\Property(
      *                 property="profile_pic",
-     *                 type="string",
-     *                  format="file",
+     *                  type="file"
      *
      *             ),
      *              example={"name":"Deepika","email":"deepik@gmail.com","phone": "+977 9812323132", "profile_pic": "2312.jpg"}
@@ -250,12 +237,11 @@ class LoginController extends Controller
 
     public function update(Request $request,$id)
     {
-        $user=User::find($id);
+        $id = Auth::user()->id;
+        $user = User::find($id);
         $user->name = request('name');
-        $user->email = request('email');
         $user->gender = request('gender');
         $user->dob = request('dob');
-        $user->phone = request('phone');
         $user->contact2 = request('contact2');
         $user->city = request('city');
         $user->area = request('area');
@@ -269,6 +255,7 @@ class LoginController extends Controller
         } else {
             $fileNameToStore1 = 'no-image.jpg';
         }
+
         if($request->hasFile('profile_pic')) {
             $user->profile_pic = $fileNameToStore1;
         }
